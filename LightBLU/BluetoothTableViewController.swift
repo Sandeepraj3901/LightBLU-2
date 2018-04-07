@@ -48,24 +48,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         return cells
     }
     
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == CBManagerState.poweredOn {
-            central.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
-            let alertController = UIAlertController(title: "Alert", message:
-                "Bluetooth is ON.", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-            
-            self.present(alertController, animated: true, completion: nil)
-        } else {
-            
-            print("Bluetooth not available.")
-            let alertController = UIAlertController(title: "Alert", message:
-                "Bluetooth is Off.", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-            
-            self.present(alertController, animated: true, completion: nil)
-        }
-    }
+   
     
     var manager:CBCentralManager!
     var peripherals:CBPeripheral!
@@ -99,6 +82,24 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
      manager.connect(peripheral, options: nil)
      }*/
      }*/
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == CBManagerState.poweredOn {
+            central.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
+            let alertController = UIAlertController(title: "Alert", message:
+                "Bluetooth is ON.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            
+            print("Bluetooth not available.")
+            let alertController = UIAlertController(title: "Alert", message:
+                "Bluetooth is Off.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
        
@@ -236,7 +237,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
                 /// writting data to peripheral device
                 //let d = "FF0000"
                
-                var value: [UInt8] = [0x00,0x00,0x77]
+                var value: [UInt8] = [000077]
                     let data = NSData(bytes: &value, length: value.count) as Data
                 let data1: Data = "000".data(using: String.Encoding.utf8)!
                 print(data1)

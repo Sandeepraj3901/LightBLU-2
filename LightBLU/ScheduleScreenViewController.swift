@@ -9,15 +9,41 @@
 import UIKit
 import UserNotifications
 import CoreBluetooth
+extension UIColor {
+    var toHexStr: String {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        
+        self.getRed(&r, green: &g, blue: &b, alpha: &a)
+        
+        return String(
+            format: "%02X%02X%02X",
+            Int(r * 0xff),
+            Int(g * 0xff),
+            Int(b * 0xff)
+        )
+    }
+}
+extension String {
+    var hexa2Byte: [UInt8] {
+        let hexa = Array(self)
+        return stride(from: 0, to: count, by: 2).flatMap { UInt8(String(hexa[$0..<$0.advanced(by: 2)]), radix: 16) }
+    }
+}
 
+class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate,UITextFieldDelegate, CBCentralManagerDelegate, CBPeripheralDelegate{
 
-class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate,UITextFieldDelegate, CBCentralManagerDelegate{
-
-    
+    @IBOutlet weak var colorPicker: SwiftHSVColorPicker!
+      var selectedColor: UIColor = UIColor.white
+   
     let colorval = ["Yellow", "Red", "Blue","Green","White","Orange","Black"]
     var pickerView = UIPickerView()
     let datePicker = UIDatePicker()
     var datee = DateComponents()
+    var name: String = " "
+    var NAME: String = "LED BLU"
     let B_UUID =
         CBUUID(string: "0000AB07-D102-11E1-9B23-00025B00A5A5")
     //0000AB07-D102-11E1-9B23-00025B00A5A5--0x1802
@@ -25,8 +51,10 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
     let Devicec = CBUUID(string: "0x2A00")
     let BSERVICE_UUID =
         CBUUID(string: "0000AB05-D102-11E1-9B23-00025B00A5A5")
+    var data = Data()
     var manager:CBCentralManager!
     var peripherals:CBPeripheral!
+     var peripheral:CBPeripheral!
     @IBOutlet weak var schedulertitle: UINavigationBar!
     @IBOutlet weak var alarmtextfield: UITextField!
     @IBOutlet weak var intensitytextfield: UITextField!
@@ -39,20 +67,10 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
     
     }
     
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == CBManagerState.poweredOn {
-            central.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
-            
-        }
-        
-    }
-    
-    
-   
     override func viewDidLoad() {
         self.navigationItem.title = "Scheduler";
         super.viewDidLoad()
-         manager = CBCentralManager(delegate: self, queue: nil)
+         //manager = CBCentralManager(delegate: self, queue: nil)
      self.view.backgroundColor = UIColor(patternImage: UIImage(named: "lb5")!)
         
 //        let backgroundImageView = UIImageView(image: UIImage(named: "lb5"))
@@ -66,8 +84,9 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
             
         })
         //self.view.backgroundColor = UIColor(patternImage: UIImage(named: "bg.png")!)
-             pickUp(colortextfield)
-        showDatePicker()
+             //pickUp(colortextfield)
+        //showDatePicker()
+        colorPicker.setViewColor(selectedColor)
         
     }
 
@@ -182,35 +201,228 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         
         print(sender.value)
     }
+
     @IBAction func savebtn(_ sender: Any) {
         
-        print("saved")
-        let triggerDaily = Calendar.current.dateComponents([.day,.month,.year,.hour,.minute,], from: datePicker.date)
+       
+        let col = colorPicker.color
         
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDaily, repeats: false)
-        
-        let alarmId = UUID().uuidString
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Notification"
-        content.body = " Your Request to turn light ON is completed"
-        //content.sound = UNNotificationSound.init(named: "your sound filename.mp3")
-        content.categoryIdentifier = alarmId
-        
-        let request = UNNotificationRequest(identifier: "alarmIdentifier", content: content, trigger: trigger)
-        
-        //print("alarm identi   : \(alarmIdentifier)")
-        
-        UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
-        UNUserNotificationCenter.current().add(request) {(error) in
+        let hex = col?.toHexStr
+        var hexb = hex?.hexa2Byte
+        print("HexStr Color:\(String(describing: hexb))")
+       
+        data = NSData(bytes: &hexb, length: (hexb?.count)!) as Data
+         manager = CBCentralManager(delegate: self, queue: nil)
+//        let triggerDaily = Calendar.current.dateComponents([.day,.month,.year,.hour,.minute,], from: datePicker.date)
+//
+//
+//        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDaily, repeats: false)
+//
+//        let alarmId = UUID().uuidString
+//
+//        let content = UNMutableNotificationContent()
+//        content.title = "Notification"
+//        content.body = " Your Request to turn light ON is completed"
+//        //content.sound = UNNotificationSound.init(named: "your sound filename.mp3")
+//        content.categoryIdentifier = alarmId
+//
+//        let request = UNNotificationRequest(identifier: "alarmIdentifier", content: content, trigger: trigger)
+//
+//        //print("alarm identi   : \(alarmIdentifier)")
+//
+//        UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+//        UNUserNotificationCenter.current().add(request) {(error) in
+//
+//            if let error = error {
+//                print("Uh oh! i had an error: \(error)")
+//            }
+//        }
+//        let timer = Timer(fireAt: datePicker.date, interval: 0, target: self, selector: #selector(self.sendcolor), userInfo: nil, repeats: false)
+//        RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
+   }
+    
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == CBManagerState.poweredOn {
+            central.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
+            let alertController = UIAlertController(title: "Alert", message:
+                "Bluetooth is ON.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
             
-            if let error = error {
-                print("Uh oh! i had an error: \(error)")
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            
+            print("Bluetooth not available.")
+            let alertController = UIAlertController(title: "Alert", message:
+                "Bluetooth is Off.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        
+        /*if(cell.contains(String(describing: peripheral.identifier.uuid)) == false && cell.count < 15)
+         {
+         cell.append(String(describing: peripheral.identifier.uuidString))
+         
+         print("welcome:\(cell)")
+         print(cell.count)
+         }*/
+        //print(peripherals)
+        print("Discovered: \(String(describing: peripheral)) at \(RSSI)")
+        print("AdvertisementData:\(advertisementData)")
+        if (peripherals != peripheral && peripheral.name != nil)
+        {
+            peripherals = peripheral
+            print(peripherals)
+            
+        }
+        
+        if(peripheral.name != nil)
+        {
+            name = peripheral.name!
+            if (peripheral.name == "LED BLU")
+            {
+                //self.sublabel.text = "Connected"
+                let device = (advertisementData as NSDictionary).object(forKey: CBAdvertisementDataLocalNameKey)
+                    as? NSString
+                print("hello:\(peripheral) and \(String(describing: device))")
+                if device?.contains(NAME) == true{
+                    //self.manager.stopScan()
+                    print("Found:\(name), and \(NAME)")
+                    //manager.connect(peripherals, options: nil)
+                    print("23454556666")
+                    self.peripherals = peripheral
+                    self.peripherals.delegate = self
+                    manager.connect(peripherals, options: nil)
+                    //print(peripherals)
+                    self.manager.stopScan()
+                    
+                }
+                self.peripherals = peripheral
+                peripherals.delegate = self
+                
+            }
+            else
+            {
+                print("no device found")
+                //self.manager.stopScan()
+                
+                
             }
         }
-        let timer = Timer(fireAt: datePicker.date, interval: 0, target: self, selector: #selector(self.sendcolor), userInfo: nil, repeats: false)
-        RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
+        else
+        {
+            print("no peripheral name")
+        }
+    }
+    
+    
+    
+    
+    
+    //    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
+    //        print("CONNECTED")
+    //        peripheral.discoverServices(nil)
+    //        peripheral.delegate = self
+    //
+    //
+    //
+    //
+    //    }
+    // Called when it succeeded
+    func centralManager(_ central: CBCentralManager,
+                        didConnect peripherals: CBPeripheral)
+    {
+        print(peripherals)
+        print("connected!")
+        peripherals.delegate = self
+        peripherals.discoverServices(nil)
+        
+        
+    }
+    // Called when it failed
+    func centralManager(_ central: CBCentralManager,
+                        didFailToConnect peripheral: CBPeripheral,
+                        error: Error?)
+    {
+        print("failed…")
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        for service in peripheral.services! {
+            let thisService = service as CBService
+            //peripheral.discoverCharacteristics(nil, for: thisService)
+            print("in service:\(thisService)")
+            if service.uuid == BSERVICE_UUID{
+                //if service.uuid == Device{
+                peripheral.discoverCharacteristics(nil, for: thisService)
+            }
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        print("in characteristics")
+        for characteristic in service.characteristics! {
+            let thisCharacteristic = characteristic as CBCharacteristic
+            print(thisCharacteristic.uuid)
+            if thisCharacteristic.uuid == B_UUID{
+                //if thisCharacteristic.uuid == Devicec{
+                //let ch = thisCharacteristic
+                print("found matching characteristic")
+                //peripherals.setNotifyValue(true, for: thisCharacteristic)
+                //self.peripherals.delegate = self
+                if thisCharacteristic.properties.contains(.read) {
+                    print("\(thisCharacteristic.uuid): properties contains .read")
+                }
+                if thisCharacteristic.properties.contains(.notify) {
+                    print("\(thisCharacteristic.uuid): properties contains .notify")
+                }
+                if thisCharacteristic.properties.contains(.write) {
+                    print("\(thisCharacteristic.uuid): properties contains .write")
+                }
+                
+                //peripheral.readValue(for: thisCharacteristic)
+                peripheral.setNotifyValue(true, for: thisCharacteristic)
+                //thisCharacteristic.value = "tytyty"
+                print(thisCharacteristic as Any)
+                /// writting data to peripheral device
+                //let d = "FF0000"
+                
+                //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
+                peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
+               // peripheral.readValue(for: thisCharacteristic)
+            }
+        }
+    }
+    
+    
+    
+    func peripheral(_ peripheral: CBPeripheral,didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        
+        
+        //print("char value:\(characteristic.value!)")
+        if let error = error {
+            print("Failed… error: \(error)")
+            return
+        }
+        
+        print("characteristic uuid: \(characteristic.uuid), value: \(String(describing: characteristic.value))")
+        
+        
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?)
+    {
+        if let error = error {
+            print("error: \(String(describing: error))")
+            return
+        }
+        print( characteristic)
+        print("Succeeded!")
+        
+        manager.cancelPeripheralConnection(peripheral)
     }
 }
 

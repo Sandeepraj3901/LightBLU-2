@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LightBLU/LEDScreenViewController.swift"
-            timestampString = "544425500.575382"
+            timestampString = "544752834.172894"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "975"
-            endingLineNumber = "975"
+            startingLineNumber = "983"
+            endingLineNumber = "983"
             landmarkName = "readval()"
             landmarkType = "7">
             <Locations>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LightBLU/LEDScreenViewController.swift"
-            timestampString = "544425500.575438"
+            timestampString = "544752834.172954"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "933"
-            endingLineNumber = "933"
+            startingLineNumber = "941"
+            endingLineNumber = "941"
             landmarkName = "readval()"
             landmarkType = "7">
             <Locations>
@@ -106,43 +106,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LightBLU/LEDScreenViewController.swift"
-            timestampString = "544425500.575478"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "913"
-            endingLineNumber = "913"
-            landmarkName = "readval()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LightBLU/LEDScreenViewController.swift"
-            timestampString = "544425500.5755171"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "918"
-            endingLineNumber = "918"
-            landmarkName = "readval()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LightBLU/LEDScreenViewController.swift"
-            timestampString = "544425500.5755531"
+            timestampString = "544752834.172999"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "921"
             endingLineNumber = "921"
+            landmarkName = "readval()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LightBLU/LEDScreenViewController.swift"
+            timestampString = "544752834.173041"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "926"
+            endingLineNumber = "926"
+            landmarkName = "readval()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LightBLU/LEDScreenViewController.swift"
+            timestampString = "544752834.1730829"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "929"
+            endingLineNumber = "929"
             landmarkName = "readval()"
             landmarkType = "7">
          </BreakpointContent>

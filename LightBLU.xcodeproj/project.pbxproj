@@ -25,6 +25,11 @@
 		4266CBAF203E60F800BC2438 /* AppleScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266CBAE203E60F800BC2438 /* AppleScreenViewController.swift */; };
 		426C0981204A069B00249978 /* SampleDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C0980204A069B00249978 /* SampleDB.swift */; };
 		426D031A2064A9DD00AA1C9A /* 123.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 426D03192064A9DD00AA1C9A /* 123.jpg */; };
+		4271B44C20781FDB004C48A0 /* SwiftHSVColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4271B44720781FDA004C48A0 /* SwiftHSVColorPicker.swift */; };
+		4271B44D20781FDB004C48A0 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4271B44820781FDA004C48A0 /* ColorUtils.swift */; };
+		4271B44E20781FDB004C48A0 /* SelectedColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4271B44920781FDA004C48A0 /* SelectedColorView.swift */; };
+		4271B44F20781FDB004C48A0 /* BrightnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4271B44A20781FDB004C48A0 /* BrightnessView.swift */; };
+		4271B45020781FDB004C48A0 /* ColorWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4271B44B20781FDB004C48A0 /* ColorWheel.swift */; };
 		42967E7F2065B2A30045AE3E /* lb2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 42967E7E2065B2A30045AE3E /* lb2.jpg */; };
 		42967E812065B3840045AE3E /* lb3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 42967E802065B3840045AE3E /* lb3.jpg */; };
 		42967E832065B3E60045AE3E /* lb4.png in Resources */ = {isa = PBXBuildFile; fileRef = 42967E822065B3E50045AE3E /* lb4.png */; };
@@ -147,7 +152,6 @@
 		42FDF4492072E96000B68C5F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E7CFDF2040EE7B002DE36C /* CoreBluetooth.framework */; };
 		42FDF44B2072E96000B68C5F /* Pods_LightBLU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 325E1987BA2D185E51E42432 /* Pods_LightBLU.framework */; };
 		42FDF44E2072EDAE00B68C5F /* Lightblutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FDF44D2072EDAE00B68C5F /* Lightblutable.swift */; };
-		E3CC0F3DB29484042A469C3D /* Pods_LightBLUTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C195355AABCD50058EECD31D /* Pods_LightBLUTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +237,11 @@
 		4266CBAE203E60F800BC2438 /* AppleScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScreenViewController.swift; sourceTree = "<group>"; };
 		426C0980204A069B00249978 /* SampleDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDB.swift; sourceTree = "<group>"; };
 		426D03192064A9DD00AA1C9A /* 123.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 123.jpg; sourceTree = "<group>"; };
+		4271B44720781FDA004C48A0 /* SwiftHSVColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHSVColorPicker.swift; sourceTree = "<group>"; };
+		4271B44820781FDA004C48A0 /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
+		4271B44920781FDA004C48A0 /* SelectedColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedColorView.swift; sourceTree = "<group>"; };
+		4271B44A20781FDB004C48A0 /* BrightnessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessView.swift; sourceTree = "<group>"; };
+		4271B44B20781FDB004C48A0 /* ColorWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheel.swift; sourceTree = "<group>"; };
 		42967E7E2065B2A30045AE3E /* lb2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lb2.jpg; sourceTree = "<group>"; };
 		42967E802065B3840045AE3E /* lb3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lb3.jpg; sourceTree = "<group>"; };
 		42967E822065B3E50045AE3E /* lb4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lb4.png; sourceTree = "<group>"; };
@@ -297,7 +306,6 @@
 		42FDF44D2072EDAE00B68C5F /* Lightblutable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lightblutable.swift; sourceTree = "<group>"; };
 		547AD7242B42690700747945 /* Pods-LightBLUTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightBLUTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LightBLUTests/Pods-LightBLUTests.release.xcconfig"; sourceTree = "<group>"; };
 		64906483DD45620483C9EA8C /* Pods-LightBLU.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightBLU.release.xcconfig"; path = "Pods/Target Support Files/Pods-LightBLU/Pods-LightBLU.release.xcconfig"; sourceTree = "<group>"; };
-		C195355AABCD50058EECD31D /* Pods_LightBLUTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightBLUTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2106C289E5C90EAB565B9 /* Pods-LightBLUTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightBLUTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LightBLUTests/Pods-LightBLUTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EBD26910A7FDE3AD357097B1 /* Pods-LightBLU.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightBLU.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LightBLU/Pods-LightBLU.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -384,7 +392,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3CC0F3DB29484042A469C3D /* Pods_LightBLUTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +443,11 @@
 		42CB095F203CC2DF0001EAFF /* LightBLU */ = {
 			isa = PBXGroup;
 			children = (
+				4271B44A20781FDB004C48A0 /* BrightnessView.swift */,
+				4271B44820781FDA004C48A0 /* ColorUtils.swift */,
+				4271B44B20781FDB004C48A0 /* ColorWheel.swift */,
+				4271B44920781FDA004C48A0 /* SelectedColorView.swift */,
+				4271B44720781FDA004C48A0 /* SwiftHSVColorPicker.swift */,
 				42FDF37A2072CC0E00B68C5F /* lb1.png */,
 				42CB0998203D04470001EAFF /* 1.jpg */,
 				420F173D204A2A7E00077C89 /* BluetoothTableViewController.swift */,
@@ -545,7 +557,6 @@
 				42E7CFE12040EE84002DE36C /* AVFoundation.framework */,
 				42E7CFDF2040EE7B002DE36C /* CoreBluetooth.framework */,
 				325E1987BA2D185E51E42432 /* Pods_LightBLU.framework */,
-				C195355AABCD50058EECD31D /* Pods_LightBLUTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -847,6 +858,9 @@
 			files = (
 				4266CBA3203E31A000BC2438 /* CollectionViewController.swift in Sources */,
 				4266CBAB203E5D9B00BC2438 /* SettingsScreenViewController.swift in Sources */,
+				4271B44D20781FDB004C48A0 /* ColorUtils.swift in Sources */,
+				4271B44F20781FDB004C48A0 /* BrightnessView.swift in Sources */,
+				4271B44E20781FDB004C48A0 /* SelectedColorView.swift in Sources */,
 				420F173E204A2A7E00077C89 /* BluetoothTableViewController.swift in Sources */,
 				42CB0961203CC2DF0001EAFF /* AppDelegate.swift in Sources */,
 				4266CBA7203E5D7100BC2438 /* LEDScreenViewController.swift in Sources */,
@@ -860,6 +874,8 @@
 				4266CBA5203E4C0F00BC2438 /* BluetoothScreenViewController.swift in Sources */,
 				42CB099B203D0A1C0001EAFF /* MainCollectionViewCell.swift in Sources */,
 				42CB099D203D0F750001EAFF /* LaunchViewController.swift in Sources */,
+				4271B44C20781FDB004C48A0 /* SwiftHSVColorPicker.swift in Sources */,
+				4271B45020781FDB004C48A0 /* ColorWheel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1026,6 +1042,8 @@
 			baseConfigurationReference = EBD26910A7FDE3AD357097B1 /* Pods-LightBLU.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RC28LEG9DG;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1036,6 +1054,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = UHCL.LightBLU;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1046,6 +1065,8 @@
 			baseConfigurationReference = 64906483DD45620483C9EA8C /* Pods-LightBLU.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RC28LEG9DG;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1056,6 +1077,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = UHCL.LightBLU;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -20,6 +20,8 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     //let vc1 = DeviceViewController.self
     let datePicker = UIDatePicker()
     @IBOutlet weak var alarmtxtfield: UITextField!
+    @IBOutlet weak var colorPicker: SwiftHSVColorPicker!
+    var selectedColor: UIColor = UIColor.white
     var name: String = " "
     var NAME: String = "LED BLU"
     let B_UUID =
@@ -78,10 +80,16 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         showDatePicker()
         createid()
         readval()
-        
+        colorPicker.setViewColor(selectedColor)
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func getSelectedColor(_ sender: Any) {
+        // Get the selected color from the Color Picker.
+        let selectedColor = colorPicker.color
+        
+        print(selectedColor!)
+    }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         
