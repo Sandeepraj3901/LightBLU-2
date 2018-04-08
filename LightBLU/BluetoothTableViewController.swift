@@ -237,9 +237,9 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
                 /// writting data to peripheral device
                 //let d = "FF0000"
                
-                var value: [UInt8] = [000077]
+                var value: [UInt8] = [0xFF,0x47,0x9E]
                     let data = NSData(bytes: &value, length: value.count) as Data
-                let data1: Data = "000".data(using: String.Encoding.utf8)!
+                let data1: Data = "A51628".data(using: String.Encoding.utf8)!
                 print(data1)
                //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
                     peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)

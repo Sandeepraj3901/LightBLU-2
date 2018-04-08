@@ -329,7 +329,7 @@
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Light Switch :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6e-dS-FMY">
-                                <rect key="frame" x="16" y="184" width="104" height="21"/>
+                                <rect key="frame" x="16" y="191" width="104" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -344,36 +344,29 @@
                                     <outlet property="delegate" destination="vaq-Dn-GTV" id="xO1-wT-Ql6"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Intensity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q5Q-yy-bjQ">
-                                <rect key="frame" x="16" y="229" width="70" height="21"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PO1-sF-6MR">
+                                <rect key="frame" x="319" y="186" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <color key="onTintColor" red="0.3939576206" green="0.4818403657" blue="0.41928339190000002" alpha="0.25256614960000001" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="thumbTintColor" red="0.85545802116394043" green="0.90968352556228638" blue="0.44613838195800781" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </switch>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nYw-5H-8og" customClass="SwiftHSVColorPicker" customModule="LightBLU" customModuleProvider="target">
+                                <rect key="frame" x="87" y="220" width="288" height="265"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q5Q-yy-bjQ">
+                                <rect key="frame" x="16" y="288" width="46" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="8dY-xl-KIo">
-                                <rect key="frame" x="182" y="225" width="195" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Intensity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f88-j9-sVH">
+                                <rect key="frame" x="16" y="418" width="70" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <color key="minimumTrackTintColor" red="0.85545802116394043" green="0.90968352556228638" blue="0.44613838195800781" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="maximumTrackTintColor" red="0.3939576206" green="0.4818403657" blue="0.41928339190000002" alpha="0.25256614960000001" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="thumbTintColor" red="0.85545802116394043" green="0.90968352556228638" blue="0.44613838195800781" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="SliderActn:" destination="vaq-Dn-GTV" eventType="valueChanged" id="4eF-u4-jcJ"/>
-                                </connections>
-                            </slider>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PO1-sF-6MR">
-                                <rect key="frame" x="328" y="174" width="49" height="31"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <color key="onTintColor" red="0.3939576206" green="0.4818403657" blue="0.41928339190000002" alpha="0.25256614960000001" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="thumbTintColor" red="0.85545802116394043" green="0.90968352556228638" blue="0.44613838195800781" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="Switch:" destination="vaq-Dn-GTV" eventType="valueChanged" id="9fu-2h-zbf"/>
-                                </connections>
-                            </switch>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nYw-5H-8og" customClass="SwiftHSVColorPicker" customModule="LightBLU" customModuleProvider="target">
-                                <rect key="frame" x="16" y="269" width="343" height="331"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.090694956481456757" green="0.32998991012573242" blue="0.37870821356773376" alpha="0.67032320209999996" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="UZT-vo-0GC"/>
@@ -394,6 +387,7 @@
                     <connections>
                         <outlet property="Id" destination="mYa-gK-5lh" id="fmJ-OA-Xtj"/>
                         <outlet property="Idtextfield" destination="Rat-s2-Jc5" id="INM-Uf-jS5"/>
+                        <outlet property="Switchval" destination="PO1-sF-6MR" id="8od-ql-Arw"/>
                         <outlet property="colorPicker" destination="nYw-5H-8og" id="mgD-Cb-kyQ"/>
                     </connections>
                 </viewController>

@@ -10,20 +10,25 @@ import UIKit
 import UserNotifications
 import CoreBluetooth
 extension UIColor {
-    var toHexStr: String {
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var a: CGFloat = 0
+    var hexString: String {
+        let colorRef = cgColor.components
+        let r = colorRef?[0] ?? 0
+        let g = colorRef?[1] ?? 0
+        let b = ((colorRef?.count ?? 0) > 2 ? colorRef?[2] : g) ?? 0
+        let a = cgColor.alpha
         
-        self.getRed(&r, green: &g, blue: &b, alpha: &a)
-        
-        return String(
-            format: "%02X%02X%02X",
-            Int(r * 0xff),
-            Int(g * 0xff),
-            Int(b * 0xff)
+        var color = String(
+            format: "#%02lX%02lX%02lX",
+            lroundf(Float(r * 255)),
+            lroundf(Float(g * 255)),
+            lroundf(Float(b * 255))
         )
+        
+        if a < 1 {
+            color += String(format: "%02lX", lroundf(Float(a)))
+        }
+        
+        return color
     }
 }
 extension String {
@@ -52,6 +57,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
     let BSERVICE_UUID =
         CBUUID(string: "0000AB05-D102-11E1-9B23-00025B00A5A5")
     var data = Data()
+    
     var manager:CBCentralManager!
     var peripherals:CBPeripheral!
      var peripheral:CBPeripheral!
@@ -61,18 +67,15 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
     @IBOutlet weak var colortextfield: UITextField!
     @IBOutlet weak var Id: UILabel!
     @IBOutlet weak var Idtextfield: UITextField!
-    @IBAction func Switch(_ sender: Any) {
-    
-        print(" need to take action")
-    
-    }
+   
+    @IBOutlet weak var Switchval: UISwitch!
     
     override func viewDidLoad() {
         self.navigationItem.title = "Scheduler";
         super.viewDidLoad()
          //manager = CBCentralManager(delegate: self, queue: nil)
      self.view.backgroundColor = UIColor(patternImage: UIImage(named: "lb5")!)
-        
+        Idtextfield.text = "LED BLU "
 //        let backgroundImageView = UIImageView(image: UIImage(named: "lb5"))
 //        backgroundImageView.frame = view.frame
 //        backgroundImageView.contentMode = .scaleAspectFill
@@ -204,15 +207,29 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
 
     @IBAction func savebtn(_ sender: Any) {
         
-       
+        if (Switchval.isOn){
         let col = colorPicker.color
         
-        let hex = col?.toHexStr
+        var hex = col?.toHexString
+        print("Hex:\(String(describing: hex))")
         var hexb = hex?.hexa2Byte
-        print("HexStr Color:\(String(describing: hexb))")
-       
+        print("Hexb:\(String(describing: hexb))")
+        //data = (hex?.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))!
+       // print("HexStr Color:\(String(describing: valueString))")
+            let strcval = hexaToBytes(hex!)
+             print("strcval:\(String(describing: strcval))")
         data = NSData(bytes: &hexb, length: (hexb?.count)!) as Data
+         print("HexStr :\(String(describing: data))")
          manager = CBCentralManager(delegate: self, queue: nil)
+        }
+        else {
+            let alertController = UIAlertController(title: "Alert", message:
+                "Switch is OFF.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+            manager = CBCentralManager(delegate: self, queue: nil)
+        }
 //        let triggerDaily = Calendar.current.dateComponents([.day,.month,.year,.hour,.minute,], from: datePicker.date)
 //
 //
@@ -248,7 +265,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
                 "Bluetooth is ON.", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
             
-            self.present(alertController, animated: true, completion: nil)
+            //self.present(alertController, animated: true, completion: nil)
         } else {
             
             print("Bluetooth not available.")
@@ -391,8 +408,16 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
                 //let d = "FF0000"
                 
                 //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
+                if(Switchval.isOn)
+                {
                 peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
-               // peripheral.readValue(for: thisCharacteristic)
+                }
+                else {
+                    var value1: [UInt8] = [0x00, 0x00, 0x00]
+                    let data1 = NSData(bytes: &value1, length: value1.count) as Data
+                    peripheral.writeValue(data1, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                }
+                    // peripheral.readValue(for: thisCharacteristic)
             }
         }
     }
@@ -424,5 +449,15 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         
         manager.cancelPeripheralConnection(peripheral)
     }
+    
+    func hexaToBytes(_ hexa: String) -> [UInt8] {
+        var position = hexa.startIndex
+        return (0..<hexa.characters.count/2).flatMap { _ in
+            defer { position = hexa.index(position, offsetBy: 2) }
+            return UInt8(hexa[position...hexa.index(after: position)], radix: 16)
+        }
+    }
+    
+    
 }
 
