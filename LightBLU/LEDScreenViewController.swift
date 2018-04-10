@@ -22,12 +22,13 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     @IBOutlet weak var alarmtxtfield: UITextField!
     @IBOutlet weak var colorPicker: SwiftHSVColorPicker!
     var selectedColor: UIColor = UIColor.white
+     var devicename   =  "xx"
     var name: String = " "
     var NAME: String = "LED BLU"
     let B_UUID =
         CBUUID(string: "0000AB07-D102-11E1-9B23-00025B00A5A5")
     //0000AB07-D102-11E1-9B23-00025B00A5A5
-    let Device = CBUUID(string: "0x1800")
+    //let Device = CBUUID(string: "0x1800")
     let Devicec = CBUUID(string: "0x2A00")
     let BSERVICE_UUID =
         CBUUID(string: "0000AB05-D102-11E1-9B23-00025B00A5A5")
@@ -74,16 +75,22 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         //        backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
         //        self.view.insertSubview(backgroundImage, at: 0)
         //self.view.backgroundColor = UIColor(patternImage: UIImage(named: "123.jpg")!)
-        idval.text = "LED BLU "
+        
+       
+       
+        print( "Print devicename = :\(self.devicename)")
+        
         //print("hlsajhljrhfasfg:\(vc.name)")
         pickUp(coloval)
         showDatePicker()
         createid()
-        readval()
+        //readval()
         colorPicker.setViewColor(selectedColor)
         // Do any additional setup after loading the view.
+        
+       readval()
     }
-    
+   
     @IBAction func getSelectedColor(_ sender: Any) {
         // Get the selected color from the Color Picker.
         let selectedColor = colorPicker.color
@@ -143,7 +150,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         if(peripheral.name != nil)
         {
             name = peripheral.name!
-            idval?.text = name
+            
             if (peripheral.name == "LED BLU")
             {
                 //self.sublabel.text = "Connected"
@@ -918,15 +925,15 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         print("Succeeded!")
         manager.cancelPeripheralConnection(peripheral)
     }
-    func readval() {
+    func readval(){
         
-        
+       
         // Initialize the Cognito Sync client
         
         let dynamoDbObjectMapper = AWSDynamoDBObjectMapper.default()
         
         // Create data object using data models you downloaded from Mobile Hub
-        let newsItem: Lightblutable = Lightblutable();
+       // let newsItem: Device = Device();
         //newsItem._userId = AWSIdentityManager.default().identityId
         
 //        dynamoDbObjectMapper.load(Lightblutable.self, hashKey: "LED12345" , rangeKey: "_dname",
@@ -941,29 +948,35 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
 //
 //        })
         let queryex = AWSDynamoDBQueryExpression()
-        queryex.keyConditionExpression = "#userId = :userId"
+        queryex.keyConditionExpression = "#deviceId = :deviceId"
         queryex.expressionAttributeNames = [
-            "#userId" : "userId",
+            "#deviceId" : "deviceId",
             
         ]
         queryex.expressionAttributeValues = [
-            ":userId": "12345",
+            ":deviceId": "0000AB05-D102-11E1-9B23-00025B00A5A5",
         ]
-        dynamoDbObjectMapper.query(Lightblutable.self, expression: queryex, completionHandler: {(response : AWSDynamoDBPaginatedOutput?, error: Error?) -> Void in
+        dynamoDbObjectMapper.query(Device.self, expression: queryex, completionHandler: {(response : AWSDynamoDBPaginatedOutput?, error: Error?) -> Void in
             if let error = error{
                 print("The Read failed. Error: \(error)")
                 return
             }
             if( response != nil){
                 if( response?.items.count == 0){
-                    self.createid()
+                    //self.createid()
+                      print("The Read failed No items")
+                    
                 }
                 else {
                     for items in (response?.items)!
                     {
-                        if (items.value(forKey: "_dname" ) != nil){
-                            
-                            print (items.value(forKey: "_dname" )!)
+                        if (items.value(forKey: "_deviceName" ) != nil){
+                            print(" An Item was read")
+                            self.devicename = (items.value(forKey: "_deviceName") as? String)!
+                            print (self.devicename)
+                            DispatchQueue.main.async() {
+                               self.idval?.text = self.devicename
+                            }
                         }
                     }
                 }
@@ -980,17 +993,18 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
 //            print(task.result as Any)
 //            return nil
 //        })
-        let syncClient = AWSCognito.default()
-        
-        // Create a record in a dataset and synchronize with the server
-        let dataset = syncClient.openOrCreateDataset("myDataset2")
-        dataset.setString("newsItem.userid as String!", forKey:"ReadValue")
-        print(" read to cognito: \(String(describing: newsItem._userId))")
-        dataset.synchronize().continueWith {(task: AWSTask!) -> AnyObject! in
-            // Your handler code here
-            return nil
-            
-        }
+//        let syncClient = AWSCognito.default()
+//        
+//        // Create a record in a dataset and synchronize with the server
+//        let dataset = syncClient.openOrCreateDataset("myDataset2")
+//        dataset.setString("newsItem.userid as String!", forKey:"ReadValue")
+//        print(" read to cognito: \(String(describing: newsItem._userId))")
+//        dataset.synchronize().continueWith {(task: AWSTask!) -> AnyObject! in
+//            // Your handler code here
+//            return nil
+//
+//        }
+       
     }
     
     public func createid() {
@@ -1119,10 +1133,10 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         
         if((id?.isEmpty)!)
         {
-            //            let alertController = UIAlertController(title: "Alert", message:
-            //                "Please enter ID ", preferredStyle: UIAlertControllerStyle.alert)
-            //            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-            //            self.present(alertController, animated: true, completion: nil)
+                        let alertController = UIAlertController(title: "Alert", message:
+                            "Please enter ID ", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                        self.present(alertController, animated: true, completion: nil)
             
         }
         else if(switchval.isOn)
@@ -1207,7 +1221,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
             manager = CBCentralManager(delegate: self, queue: nil)
         }
         
-        
+        LightOperationSave()
     }
     
     @objc func sendcolor (_ sender: Any)
@@ -1249,6 +1263,51 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
-    
+    func LightOperationSave()
+    {
+        let dynamoDbObjectMapper1 = AWSDynamoDBObjectMapper.default()
+        
+        // Create data object using data models
+        let newsItem1: LightOperations1 = LightOperations1()
+        if(self.idval.text != nil)
+        {newsItem1._lightdeviceName = self.idval.text}
+        else
+        {newsItem1._lightdeviceName =  "SAMPLE"}
+        newsItem1._phonedeviceName = "Sandeepraj Iphone"
+        if(self.coloval.text != "")
+        {newsItem1._colorId = self.coloval.text}
+        else
+        {newsItem1._colorId = "NIL"}
+        if(self.sliderval >= 0)
+        {newsItem1._intensityVal = String(self.sliderval)}
+        else
+        {newsItem1._intensityVal = "NIL"}
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy HH:mm"
+        newsItem1._lastUpdated = formatter.string(from: date)
+        newsItem1._opId = Int(arc4random_uniform(100)) as NSNumber
+        if(self.switchval.isOn){
+        newsItem1._deviceStatus = " Light ON"
+        }
+        else
+        {
+             newsItem1._deviceStatus = " Light OFF"
+        }
+        //AWSIdentityManager.default().identityId
+        
+        //Save a new item
+        print("value for db:\(String(describing: newsItem1))")
+        dynamoDbObjectMapper1.save(newsItem1, completionHandler: {
+            (error: Error?) -> Void in
+            // NSLog((error as! NSString) as String)
+            if let error = error {
+                print("Amazon DynamoDB Save Error Operation: \(error)")
+                return
+            }
+            print("Operation was saved.")
+        })
+        
+    }
 }
 
