@@ -1305,7 +1305,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
                 print("Amazon DynamoDB Save Error Operation: \(error)")
                 return
             }
-            print("Operation was saved.")
+            print("Operation was saved!!!.")
         })
         
     }
