@@ -43,6 +43,7 @@ extension UIViewController: UNUserNotificationCenterDelegate {
 class LEDScreenViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate,
 CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     //let vc1 = DeviceViewController.self
+     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let datePicker = UIDatePicker()
     @IBOutlet weak var alarmtxtfield: UITextField!
     @IBOutlet weak var colorPicker: SwiftHSVColorPicker!
@@ -367,7 +368,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
                                 break
                                 }
                                 
-                            case "Blue"?:  if(self.sliderval >= 95) {
+                            case "Green"?:  if(self.sliderval >= 95) {
                                 // var st = String(format:"%2X", 100)
                                 var value: [UInt8] = [0x00,0xFF, 0x00]
                                 let data = NSData(bytes: &value, length: value.count) as Data
@@ -440,7 +441,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
                                 peripheral.readValue(for: thisCharacteristic)
                                 break
                                 }
-                            case "Green"?:  if(self.sliderval >= 95) {
+                            case "Blue"?:  if(self.sliderval >= 95) {
                                 // var st = String(format:"%2X", 100)
                                 var value: [UInt8] = [ 0x00, 0x00,0xFF]
                                 let data = NSData(bytes: &value, length: value.count) as Data
@@ -1140,8 +1141,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
+ 
     /*
      // MARK: - Navigation
      
@@ -1155,7 +1155,10 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     var i = 0
     @IBAction func saveBtn(_ sender: Any) {
         let id = idval.text
+       
+        let password = appDelegate.password
         
+        if( password == "Sandy" && id == "LED BLU" && appDelegate.dstatus == "Connected") {
         if((id?.isEmpty)!)
         {
                         let alertController = UIAlertController(title: "Alert", message:
@@ -1247,6 +1250,14 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         }
         
         LightOperationSave()
+    }
+        else {
+            let alertController = UIAlertController(title: "Alert", message:
+                "Please Check Bluetooth device and Password ", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            
+        }
     }
     
     @objc func sendcolor (_ sender: Any)

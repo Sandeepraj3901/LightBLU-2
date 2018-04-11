@@ -104,15 +104,7 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         
         if (captureSession.isRunning == false) {
             captureSession.stopRunning()
-            let viewControllers: [UIViewController] = self.navigationController!.viewControllers
-            for aViewController in viewControllers {
-                if aViewController is LEDScreenViewController {
-                    let vc:LEDScreenViewController = LEDScreenViewController()
-                    vc.idval.text = messageLabel.text
-                    self.navigationController!.popToViewController(aViewController, animated: true)
-                    
-                }
-            }
+         
         }
     }
     override func viewDidLoad() {
@@ -205,10 +197,10 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                                 let alert3 = UIAlertController(title: "Deviced Paired - Please proceed", message: nil, preferredStyle: UIAlertControllerStyle.alert)
                                 alert3.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                                 self.present(alert3, animated: true)
-                                
+                                appDelegate.dstatus = "Connected"
                             }
                             else {
-                                let alert3 = UIAlertController(title: "Deviced Not Paired - Please proceed", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+                                let alert3 = UIAlertController(title: "Deviced Not Paired - Please check", message: nil, preferredStyle: UIAlertControllerStyle.alert)
                                 alert3.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                                 self.present(alert3, animated: true)
                             }

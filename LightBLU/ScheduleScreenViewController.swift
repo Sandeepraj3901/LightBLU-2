@@ -42,7 +42,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
 
     @IBOutlet weak var colorPicker: SwiftHSVColorPicker!
       var selectedColor: UIColor = UIColor.white
-   
+   let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let colorval = ["Yellow", "Red", "Blue","Green","White","Orange","Black"]
     var pickerView = UIPickerView()
     let datePicker = UIDatePicker()
@@ -207,6 +207,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
 
     @IBAction func savebtn(_ sender: Any) {
         
+        if(appDelegate.password == "Sandy" && appDelegate.dstatus == "Connected") {
         if (Switchval.isOn){
         let col = colorPicker.color
         
@@ -229,6 +230,15 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
             
             self.present(alertController, animated: true, completion: nil)
             manager = CBCentralManager(delegate: self, queue: nil)
+        }
+        }
+        else
+        {
+            let alertController = UIAlertController(title: "Alert", message:
+                "Please check Bluetooth device and Password.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
         }
 //        let triggerDaily = Calendar.current.dateComponents([.day,.month,.year,.hour,.minute,], from: datePicker.date)
 //

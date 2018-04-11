@@ -15,7 +15,9 @@ import AWSCognito
 
 
 class BluetoothTableViewController: UITableViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
-    var password = String()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var password = "xxx"
+    
     @IBOutlet weak var sublabel: UILabel!
     var name: String = " "
     var NAME: String = "LED BLU"
@@ -41,9 +43,11 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         let peripheral1 = perip[indexPath.row]
         
                cells.textLabel?.text = peripheral1.name
-                if(peripheral1.name == "LED BLU" && password == "Sandy")
+                if(peripheral1.name == "LED BLU" && appDelegate.password == "Sandy")
                 {
-                    cells.detailTextLabel?.text = "Connected"}
+                    cells.detailTextLabel?.text = "Connected"
+                   
+                }
                 else
                 {
                     cells.detailTextLabel?.text = "Not Connected"
@@ -61,14 +65,29 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        self.password = appDelegate.password!
-        manager = CBCentralManager(delegate: self, queue: nil)
-        // Do any additional setup after loading the view.
         
+        self.password = appDelegate.password
+     
+        manager = CBCentralManager(delegate: self, queue: nil)
+            
+        
+//        else
+//        {
+//            let alertController = UIAlertController(title: "Alert", message:
+//                "Please check the password.", preferredStyle: UIAlertControllerStyle.alert)
+//            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+//
+//            self.present(alertController, animated: true, completion: nil)
+//            manager = CBCentralManager(delegate: self, queue: nil)
+//        }
+        // Do any additional setup after loading the view.
+    
     }
     
- 
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -92,11 +111,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == CBManagerState.poweredOn {
             central.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
-            let alertController = UIAlertController(title: "Alert", message:
-                "Bluetooth is ON.", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
             
-            self.present(alertController, animated: true, completion: nil)
         } else {
             
             print("Bluetooth not available.")
@@ -152,7 +167,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
                 manager.connect(peripherals, options: nil)
                 //print(peripherals)
                 self.manager.stopScan()
-            
+                self.viewDidAppear(true)
             }
             self.peripherals = peripheral
             self.peripherals.delegate = self
@@ -169,6 +184,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
        else
         {
             print("no peripheral name")
+            name = " No Device"
         }
 }
       
@@ -192,6 +208,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         print(peripherals)
         print("connected!")
         status = "Connected"
+        appDelegate.dstatus = status
         peripherals.delegate = self
         peripherals.discoverServices(nil)
     
@@ -245,7 +262,8 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
                  print(thisCharacteristic as Any)
                 /// writting data to peripheral device
                 //let d = "FF0000"
-               
+                
+                
                 var value: [UInt8] = [0xFF,0x47,0x9E]
                     let data = NSData(bytes: &value, length: value.count) as Data
                 let data1: Data = "A51628".data(using: String.Encoding.utf8)!
