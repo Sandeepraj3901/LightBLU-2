@@ -15,7 +15,7 @@ import AWSCognito
 
 
 class BluetoothTableViewController: UITableViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
-    
+    var password = String()
     @IBOutlet weak var sublabel: UILabel!
     var name: String = " "
     var NAME: String = "LED BLU"
@@ -41,7 +41,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         let peripheral1 = perip[indexPath.row]
         
                cells.textLabel?.text = peripheral1.name
-                if(peripheral1.name == "LED BLU")
+                if(peripheral1.name == "LED BLU" && password == "Sandy")
                 {
                     cells.detailTextLabel?.text = "Connected"}
                 else
@@ -61,7 +61,8 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.password = appDelegate.password!
         manager = CBCentralManager(delegate: self, queue: nil)
         // Do any additional setup after loading the view.
         

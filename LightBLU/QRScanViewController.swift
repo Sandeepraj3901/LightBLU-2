@@ -196,9 +196,22 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                             self.password = name
                             print("Your QRCODE: \(self.qrtext)")
                             print("Your Password: \(self.password)")
-                            let alert3 = UIAlertController(title: "Deviced Scanned - Please proceed", message: nil, preferredStyle: UIAlertControllerStyle.alert)
-                            alert3.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                            self.present(alert3, animated: true)
+                            
+                            if(self.password == "Sandy")
+                            {
+                                //self.manager = CBCentralManager(delegate: self, queue: nil)
+                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                appDelegate.password = self.password
+                                let alert3 = UIAlertController(title: "Deviced Paired - Please proceed", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+                                alert3.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                                self.present(alert3, animated: true)
+                                
+                            }
+                            else {
+                                let alert3 = UIAlertController(title: "Deviced Not Paired - Please proceed", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+                                alert3.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                                self.present(alert3, animated: true)
+                            }
                         }
                     }))
                     
@@ -216,6 +229,7 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         }
         
     }
+    
     
 }
 
