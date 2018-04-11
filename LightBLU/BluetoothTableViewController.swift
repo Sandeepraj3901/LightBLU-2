@@ -8,16 +8,22 @@
 
 import UIKit
 import CoreBluetooth
+import AWSDynamoDB
+import AWSAuthCore
+import AWSCore
+import AWSCognito
+
 
 class BluetoothTableViewController: UITableViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     @IBOutlet weak var sublabel: UILabel!
     var name: String = " "
     var NAME: String = "LED BLU"
+    var status = "'"
     let B_UUID =
         CBUUID(string: "0000AB07-D102-11E1-9B23-00025B00A5A5")
     //0000AB07-D102-11E1-9B23-00025B00A5A5--0x1802
-    let Device = CBUUID(string: "0x1800")
+   // let Device = CBUUID(string: "0x1800")
     let Devicec = CBUUID(string: "0x2A00")
     let BSERVICE_UUID =
         CBUUID(string: "0000AB05-D102-11E1-9B23-00025B00A5A5")
@@ -184,6 +190,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
     {
         print(peripherals)
         print("connected!")
+        status = "Connected"
         peripherals.delegate = self
         peripherals.discoverServices(nil)
     
@@ -195,6 +202,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
                         error: Error?)
     {
         print("failed…")
+        status = " Not Connected"
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -272,7 +280,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         }
         print( characteristic)
         print("Succeeded!")
-       
+       createid()
         manager.cancelPeripheralConnection(peripheral)
     }
     /*
@@ -301,5 +309,44 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
 //        //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
 //        peripheral.writeValue(data, for: char, type: CBCharacteristicWriteType.withResponse)
 //    }
-    
+    public func createid() {
+        //        let credentialsProvider = AWSCognitoCredentialsProvider(regionType:.USEast2,
+        //                                                                identityPoolId:"us-east-2:0c1abe18-9c04-48d9-a362-f4cdb698834f")
+        //
+        //        let configuration = AWSServiceConfiguration(region:.USEast2, credentialsProvider:credentialsProvider)
+        //
+        //        AWSServiceManager.default().defaultServiceConfiguration = configuration
+        //
+        
+        
+        
+        let dynamoDbObjectMapperBLE = AWSDynamoDBObjectMapper.default()
+        
+        // Create data object using data models
+        let newsItem: Device = Device()
+        
+        newsItem._deviceId = String(describing: BSERVICE_UUID)
+        newsItem._deviceName = name
+        newsItem._deviceStatus = status
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy HH:mm"
+        //formatter.timeStyle = DateFormatter.Style.short
+        
+        newsItem._lastUpdated = formatter.string(from: date)
+        //AWSIdentityManager.default().identityId
+        
+        //Save a new item
+        print("value for db:\(String(describing: newsItem._lastUpdated))")
+        dynamoDbObjectMapperBLE.save(newsItem, completionHandler: {
+            (error: Error?) -> Void in
+            // NSLog((error as! NSString) as String)
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                return
+            }
+            print("A Device record was saved.")
+        })
+      
+    }
 }
