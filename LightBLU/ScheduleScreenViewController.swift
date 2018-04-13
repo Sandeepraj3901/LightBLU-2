@@ -9,6 +9,10 @@
 import UIKit
 import UserNotifications
 import CoreBluetooth
+import AWSDynamoDB
+import AWSAuthCore
+import AWSCore
+import AWSCognito
 extension UIColor {
     var hexString: String {
         let colorRef = cgColor.components
@@ -36,8 +40,49 @@ extension String {
         let hexa = Array(self)
         return stride(from: 0, to: count, by: 2).flatMap { UInt8(String(hexa[$0..<$0.advanced(by: 2)]), radix: 16) }
     }
+    
 }
-
+public extension UIDevice {
+    
+    var modelName1: String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
+        switch identifier {
+        case "iPod5,1":                                 return "iPod Touch 5"
+        case "iPod7,1":                                 return "iPod Touch 6"
+        case "iPhone3,1", "iPhone3,2", "iPhone3,3":     return "iPhone 4"
+        case "iPhone4,1":                               return "iPhone 4s"
+        case "iPhone5,1", "iPhone5,2":                  return "iPhone 5"
+        case "iPhone5,3", "iPhone5,4":                  return "iPhone 5c"
+        case "iPhone6,1", "iPhone6,2":                  return "iPhone 5s"
+        case "iPhone7,2":                               return "iPhone 6"
+        case "iPhone7,1":                               return "iPhone 6 Plus"
+        case "iPhone8,1":                               return "iPhone 6s"
+        case "iPhone9,1", "iPhone9,3":                  return "iPhone 7"
+        case "iPhone9,2", "iPhone9,4":                  return "iPhone 7 Plus"
+        case "i386", "x86_64":                          return "Simulator"
+        case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":return "iPad 2"
+        case "iPad3,1", "iPad3,2", "iPad3,3":           return "iPad 3"
+        case "iPad3,4", "iPad3,5", "iPad3,6":           return "iPad 4"
+        case "iPad4,1", "iPad4,2", "iPad4,3":           return "iPad Air"
+        case "iPad5,3", "iPad5,4":                      return "iPad Air 2"
+        case "iPad2,5", "iPad2,6", "iPad2,7":           return "iPad Mini"
+        case "iPad4,4", "iPad4,5", "iPad4,6":           return "iPad Mini 2"
+        case "iPad4,7", "iPad4,8", "iPad4,9":           return "iPad Mini 3"
+        case "iPad5,1", "iPad5,2":                      return "iPad Mini 4"
+        case "iPad6,7", "iPad6,8":                      return "iPad Pro"
+        case "AppleTV5,3":                              return "Apple TV"
+        case "i386", "x86_64":                          return "Simulator"
+        default:                                        return identifier
+        }
+    }
+}
 class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate,UITextFieldDelegate, CBCentralManagerDelegate, CBPeripheralDelegate{
 
     @IBOutlet weak var colorPicker: SwiftHSVColorPicker!
@@ -71,7 +116,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
     @IBOutlet weak var Switchval: UISwitch!
     
     override func viewDidLoad() {
-        self.navigationItem.title = "Scheduler";
+        self.navigationItem.title = "LED SCREEN";
         super.viewDidLoad()
          //manager = CBCentralManager(delegate: self, queue: nil)
      self.view.backgroundColor = UIColor(patternImage: UIImage(named: "lb5")!)
@@ -199,21 +244,24 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
 //
     }
     
+
     
     @IBAction func SliderActn(_ sender: UISlider) {
         
         print(sender.value)
     }
-
+    var color = String()
     @IBAction func savebtn(_ sender: Any) {
         
         if(appDelegate.password == "Sandy" && appDelegate.dstatus == "Connected") {
         if (Switchval.isOn){
         let col = colorPicker.color
         
-        var hex = col?.toHexString
+            let hex = col?.toHexString
+            color = hex!
         print("Hex:\(String(describing: hex))")
         var hexb = hex?.hexa2Byte
+          
         print("Hexb:\(String(describing: hexb))")
         //data = (hex?.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))!
        // print("HexStr Color:\(String(describing: valueString))")
@@ -266,6 +314,8 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
 //        }
 //        let timer = Timer(fireAt: datePicker.date, interval: 0, target: self, selector: #selector(self.sendcolor), userInfo: nil, repeats: false)
 //        RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
+        
+          LightOperationSave()
    }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -468,6 +518,52 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         }
     }
     
-    
+    func LightOperationSave()
+    {
+        let dynamoDbObjectMapper1 = AWSDynamoDBObjectMapper.default()
+        
+        // Create data object using data models
+        let newsItem1: LightOperations1 = LightOperations1()
+        if(self.Idtextfield != nil)
+        {newsItem1._lightdeviceName = self.Idtextfield.text}
+        else
+        {newsItem1._lightdeviceName =  "SAMPLE"}
+        newsItem1._phonedeviceName = UIDevice.current.modelName1
+        if(self.color != "")
+        {newsItem1._colorId = self.color
+            newsItem1._intensityVal = "NIL"
+        }
+        else
+        {newsItem1._colorId = "NIL"
+            
+        }
+        
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy HH:mm"
+        newsItem1._lastUpdated = formatter.string(from: date)
+        newsItem1._opId = Int(arc4random_uniform(100)) as NSNumber
+        if(self.Switchval.isOn){
+            newsItem1._deviceStatus = " Light ON"
+        }
+        else
+        {
+            newsItem1._deviceStatus = " Light OFF"
+        }
+        //AWSIdentityManager.default().identityId
+        
+        //Save a new item
+        print("value for db:\(String(describing: newsItem1))")
+        dynamoDbObjectMapper1.save(newsItem1, completionHandler: {
+            (error: Error?) -> Void in
+            // NSLog((error as! NSString) as String)
+            if let error = error {
+                print("Amazon DynamoDB Save Error Operation: \(error)")
+                return
+            }
+            print("Operation was saved!!!.")
+        })
+        
+    }
 }
 

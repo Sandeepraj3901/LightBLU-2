@@ -658,6 +658,11 @@
 					42CB095C203CC2DF0001EAFF = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					42CB0970203CC2DF0001EAFF = {
 						CreatedOnToolsVersion = 9.2;

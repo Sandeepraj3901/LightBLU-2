@@ -17,7 +17,7 @@ import AWSCognito
 class BluetoothTableViewController: UITableViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var password = "xxx"
-    
+    var match = 0
     @IBOutlet weak var sublabel: UILabel!
     var name: String = " "
     var NAME: String = "LED BLU"
@@ -47,6 +47,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
                 {
                     cells.detailTextLabel?.text = "Connected"
                    
+                    
                 }
                 else
                 {
@@ -139,6 +140,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         {
             peripherals = peripheral
             print(peripherals)
+         
             perip.append(peripherals)
         }
        self.tableView.reloadData()
@@ -148,7 +150,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         //CBAdvertisementDataLocalNameKey
         
      */
-       if(peripheral.name != nil)
+       if(peripheral.name != nil )
        {
         name = peripheral.name!
         if (peripheral.name == "LED BLU")
@@ -164,9 +166,12 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
             print("23454556666")
                 self.peripherals = peripheral
                 self.peripherals.delegate = self
-                manager.connect(peripherals, options: nil)
+                //manager.connect(peripherals, options: nil)
+                if (perip.count > 10)                                                                                                                                                                                                                                                                                                                   
+                {self.manager.stopScan()}
+             
                 //print(peripherals)
-                self.manager.stopScan()
+               
                 self.viewDidAppear(true)
             }
             self.peripherals = peripheral
@@ -202,106 +207,106 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
 //
 //    }
     // Called when it succeeded
-    func centralManager(_ central: CBCentralManager,
-                                 didConnect peripherals: CBPeripheral)
-    {
-        print(peripherals)
-        print("connected!")
-        status = "Connected"
-        appDelegate.dstatus = status
-        peripherals.delegate = self
-        peripherals.discoverServices(nil)
-    
-        
-    }
-    // Called when it failed
-    func centralManager(_ central: CBCentralManager,
-                        didFailToConnect peripheral: CBPeripheral,
-                        error: Error?)
-    {
-        print("failed…")
-        status = " Not Connected"
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        for service in peripheral.services! {
-            let thisService = service as CBService
-            //peripheral.discoverCharacteristics(nil, for: thisService)
-            print("in service:\(thisService)")
-            if service.uuid == BSERVICE_UUID{
-            //if service.uuid == Device{
-             peripheral.discoverCharacteristics(nil, for: thisService)
-             }
-        }
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        print("in characteristics")
-        for characteristic in service.characteristics! {
-            let thisCharacteristic = characteristic as CBCharacteristic
-            print(thisCharacteristic.uuid)
-            if thisCharacteristic.uuid == B_UUID{
-                //if thisCharacteristic.uuid == Devicec{
-                //let ch = thisCharacteristic
-                print("found matching characteristic")
-                //peripherals.setNotifyValue(true, for: thisCharacteristic)
-                 //self.peripherals.delegate = self
-                if thisCharacteristic.properties.contains(.read) {
-                    print("\(thisCharacteristic.uuid): properties contains .read")
-                }
-                if thisCharacteristic.properties.contains(.notify) {
-                    print("\(thisCharacteristic.uuid): properties contains .notify")
-                }
-                if thisCharacteristic.properties.contains(.write) {
-                    print("\(thisCharacteristic.uuid): properties contains .write")
-                }
-               
-                //peripheral.readValue(for: thisCharacteristic)
-                peripheral.setNotifyValue(true, for: thisCharacteristic)
-                //thisCharacteristic.value = "tytyty"
-                 print(thisCharacteristic as Any)
-                /// writting data to peripheral device
-                //let d = "FF0000"
-                
-                
-                var value: [UInt8] = [0xFF,0x47,0x9E]
-                    let data = NSData(bytes: &value, length: value.count) as Data
-                let data1: Data = "A51628".data(using: String.Encoding.utf8)!
-                print(data1)
-               //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
-                    peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
-                 peripheral.readValue(for: thisCharacteristic)
-                }
-            }
-        }
-    
-    
-    
-     func peripheral(_ peripheral: CBPeripheral,didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-       
-       
-            //print("char value:\(characteristic.value!)")
-            if let error = error {
-                print("Failed… error: \(error)")
-                return
-            }
-
-            print("characteristic uuid: \(characteristic.uuid), value: \(String(describing: characteristic.value))")
-
-        
-        }
-    
-     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?)
-    {
-        if let error = error {
-            print("error: \(String(describing: error))")
-            return
-        }
-        print( characteristic)
-        print("Succeeded!")
-       createid()
-        manager.cancelPeripheralConnection(peripheral)
-    }
+//    func centralManager(_ central: CBCentralManager,
+//                                 didConnect peripherals: CBPeripheral)
+//    {
+//        print(peripherals)
+//        print("connected!")
+//        status = "Connected"
+//        appDelegate.dstatus = status
+//        peripherals.delegate = self
+//        peripherals.discoverServices(nil)
+//
+//
+//    }
+//    // Called when it failed
+//    func centralManager(_ central: CBCentralManager,
+//                        didFailToConnect peripheral: CBPeripheral,
+//                        error: Error?)
+//    {
+//        print("failed…")
+//        status = " Not Connected"
+//    }
+//
+//    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+//        for service in peripheral.services! {
+//            let thisService = service as CBService
+//            //peripheral.discoverCharacteristics(nil, for: thisService)
+//            print("in service:\(thisService)")
+//            if service.uuid == BSERVICE_UUID{
+//            //if service.uuid == Device{
+//             peripheral.discoverCharacteristics(nil, for: thisService)
+//             }
+//        }
+//    }
+//
+//    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+//        print("in characteristics")
+//        for characteristic in service.characteristics! {
+//            let thisCharacteristic = characteristic as CBCharacteristic
+//            print(thisCharacteristic.uuid)
+//            if thisCharacteristic.uuid == B_UUID{
+//                //if thisCharacteristic.uuid == Devicec{
+//                //let ch = thisCharacteristic
+//                print("found matching characteristic")
+//                //peripherals.setNotifyValue(true, for: thisCharacteristic)
+//                 //self.peripherals.delegate = self
+//                if thisCharacteristic.properties.contains(.read) {
+//                    print("\(thisCharacteristic.uuid): properties contains .read")
+//                }
+//                if thisCharacteristic.properties.contains(.notify) {
+//                    print("\(thisCharacteristic.uuid): properties contains .notify")
+//                }
+//                if thisCharacteristic.properties.contains(.write) {
+//                    print("\(thisCharacteristic.uuid): properties contains .write")
+//                }
+//
+//                //peripheral.readValue(for: thisCharacteristic)
+//                peripheral.setNotifyValue(true, for: thisCharacteristic)
+//                //thisCharacteristic.value = "tytyty"
+//                 print(thisCharacteristic as Any)
+//                /// writting data to peripheral device
+//                //let d = "FF0000"
+//
+//
+//                var value: [UInt8] = [0xFF,0x47,0x9E]
+//                    let data = NSData(bytes: &value, length: value.count) as Data
+//                let data1: Data = "A51628".data(using: String.Encoding.utf8)!
+//                print(data1)
+//               //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
+//                    peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
+//                 peripheral.readValue(for: thisCharacteristic)
+//                }
+//            }
+//        }
+//
+//
+//
+//     func peripheral(_ peripheral: CBPeripheral,didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+//
+//
+//            //print("char value:\(characteristic.value!)")
+//            if let error = error {
+//                print("Failed… error: \(error)")
+//                return
+//            }
+//
+//            print("characteristic uuid: \(characteristic.uuid), value: \(String(describing: characteristic.value))")
+//
+//
+//        }
+//
+//     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?)
+//    {
+//        if let error = error {
+//            print("error: \(String(describing: error))")
+//            return
+//        }
+//        print( characteristic)
+//        print("Succeeded!")
+//       createid()
+//        manager.cancelPeripheralConnection(peripheral)
+//    }
     /*
      // MARK: - Navigation
      
