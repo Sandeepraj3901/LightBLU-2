@@ -13,6 +13,7 @@ import AWSDynamoDB
 import AWSAuthCore
 import AWSCore
 import AWSCognito
+
 extension UIColor {
     var hexString: String {
         let colorRef = cgColor.components
@@ -20,27 +21,53 @@ extension UIColor {
         let g = colorRef?[1] ?? 0
         let b = ((colorRef?.count ?? 0) > 2 ? colorRef?[2] : g) ?? 0
         let a = cgColor.alpha
-        
+
         var color = String(
             format: "#%02lX%02lX%02lX",
             lroundf(Float(r * 255)),
             lroundf(Float(g * 255)),
             lroundf(Float(b * 255))
         )
-        
+
         if a < 1 {
             color += String(format: "%02lX", lroundf(Float(a)))
         }
-        
+
         return color
     }
 }
 extension String {
     var hexa2Byte: [UInt8] {
         let hexa = Array(self)
-        return stride(from: 0, to: count, by: 2).flatMap { UInt8(String(hexa[$0..<$0.advanced(by: 2)]), radix: 16) }
+        return stride(from: 0, to: count, by: 2).flatMap { UInt8(String(hexa[$0..<$0.advanced(by: 2)]), radix: 10) }
     }
-    
+    func splitByLength(length: Int) -> String {
+        var result = String()
+       
+        var collectedCharacters = [Character]()
+        collectedCharacters.reserveCapacity(length)
+        var count = 0
+        
+        for character in self.characters {
+           
+            collectedCharacters.append(character)
+            count += 1
+            if (count == length) {
+                // Reached the desired length
+                count = 0
+                
+                result.append(String(collectedCharacters))
+                collectedCharacters.removeAll(keepingCapacity: true)
+            }
+        }
+        
+        // Append the remainder
+        if !collectedCharacters.isEmpty {
+            result.append(String(collectedCharacters))
+        }
+        
+        return result
+    }
 }
 public extension UIDevice {
     
@@ -252,10 +279,17 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         print(sender.value)
     }
     var color = String()
-    
+    var newData = Data()
+    var myNSString = NSString()
+    var myNSData = Data()
+    var  myArray = [UInt8]()
     
     
     @IBAction func savebtn(_ sender: Any) {
+        let alertController = UIAlertController(title: "Alert", message:
+            "Operation Saved ", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
         
         if(appDelegate.password == "Sandy" && appDelegate.dstatus == "Connected") {
         if (Switchval.isOn){
@@ -264,15 +298,25 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         
             let hex = col?.toHexString
             color = hex!
+            
+            //let sample = UIColor(color)
+            newData = color.data(using: String.Encoding.utf8)!
+             let x = color.splitByLength(length: 2)
+            print("newData:\(String(describing: x))")
         print("Hex:\(String(describing: hex))")
         var hexb = hex?.hexa2Byte
-          
+            
+            data = x.data(using: String.Encoding.utf8, allowLossyConversion: true)!
+            
+            
+            
+            
         print("Hexb:\(String(describing: hexb))")
         //data = (hex?.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))!
        // print("HexStr Color:\(String(describing: valueString))")
             let strcval = hexaToBytes(hex!)
              print("strcval:\(String(describing: strcval))")
-        data = NSData(bytes: &hexb, length: (hexb?.count)!) as Data
+        //data = NSData(bytes: &hexb, length: (hexb?.count)!) as Data
          print("HexStr :\(String(describing: data))")
          manager = CBCentralManager(delegate: self, queue: nil)
         }
@@ -475,7 +519,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
                 //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
                 if(Switchval.isOn)
                 {
-                peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                peripheral.writeValue(newData, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
                 }
                 else {
                     var value1: [UInt8] = [0x00, 0x00, 0x00]

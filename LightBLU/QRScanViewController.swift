@@ -17,12 +17,12 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
     var NAME: String = "LED BLU"
     var status = ""
     let B_UUID =
-        CBUUID(string: "0000AB07-D102-11E1-9B23-00025B00A5A5")
+        CBUUID(string: "0000AB09-D102-11E1-9B23-00025B00A5A5")
     //0000AB07-D102-11E1-9B23-00025B00A5A5
     //let Device = CBUUID(string: "0x1800")
     let Devicec = CBUUID(string: "0x2A00")
     let BSERVICE_UUID =
-        CBUUID(string: "0000AB05-D102-11E1-9B23-00025B00A5A5")
+        CBUUID(string: "0000AB08-D102-11E1-9B23-00025B00A5A5")
     var manager:CBCentralManager!
     var peripherals:CBPeripheral!
     @IBOutlet weak var messageLabel: UILabel!
@@ -206,12 +206,10 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                                 //self.manager = CBCentralManager(delegate: self, queue: nil)
                                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                                 appDelegate.password = self.password
-                                let alert3 = UIAlertController(title: "Deviced Paired - Please proceed", message: nil, preferredStyle: UIAlertControllerStyle.alert)
-                                alert3.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                                self.present(alert3, animated: true)
+                               
                                 appDelegate.dstatus = "Connected"
                                 self.manager = CBCentralManager(delegate: self, queue: nil)
-                            }
+                                }
                             else {
                                 let alert3 = UIAlertController(title: "Deviced Not Paired - Please check", message: nil, preferredStyle: UIAlertControllerStyle.alert)
                                 alert3.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -238,6 +236,10 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == CBManagerState.poweredOn {
+            let alert3 = UIAlertController(title: "Deviced Paired - Please proceed", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+            alert3.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert3, animated: true)
+            
             central.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : false])
             
         } else {
@@ -402,7 +404,7 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                 print(data1)
                 //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
                 peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
-               
+               peripheral.readValue(for: thisCharacteristic)
             }
         }
     }

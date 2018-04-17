@@ -1194,6 +1194,11 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     
     var i = 0
     @IBAction func saveBtn(_ sender: Any) {
+        let alertController = UIAlertController(title: "Alert", message:
+            "Operation Saved ", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+        
         let id = idval.text
        
         let password = appDelegate.password
@@ -1363,8 +1368,12 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         formatter.dateFormat = "dd/MM/yyyy HH:mm"
         newsItem1._lastUpdated = formatter.string(from: date)
         newsItem1._opId = Int(arc4random_uniform(100)) as NSNumber
-        if(self.switchval.isOn){
+        if(self.switchval.isOn && self.alarmtxtfield == nil){
         newsItem1._deviceStatus = " Light ON"
+        }
+        else if( self.alarmtxtfield != nil)
+        {
+            newsItem1._deviceStatus = " Scheduled"
         }
         else
         {
