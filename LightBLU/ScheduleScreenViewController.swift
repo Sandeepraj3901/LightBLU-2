@@ -135,9 +135,10 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
              //pickUp(colortextfield)
         //showDatePicker()
         colorPicker.setViewColor(selectedColor)
+
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -251,10 +252,14 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         print(sender.value)
     }
     var color = String()
+    
+    
+    
     @IBAction func savebtn(_ sender: Any) {
         
         if(appDelegate.password == "Sandy" && appDelegate.dstatus == "Connected") {
         if (Switchval.isOn){
+      
         let col = colorPicker.color
         
             let hex = col?.toHexString
@@ -564,6 +569,75 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
             print("Operation was saved!!!.")
         })
         
+    }
+    
+    
+    public func savecolor()
+{
+    if(appDelegate.password == "Sandy" && appDelegate.dstatus == "Connected") {
+        if (Switchval.isOn){
+            
+            let col = colorPicker.color
+            
+            let hex = col?.toHexString
+            color = hex!
+            print("Hex:\(String(describing: hex))")
+            var hexb = hex?.hexa2Byte
+            
+            print("Hexb:\(String(describing: hexb))")
+            //data = (hex?.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))!
+            // print("HexStr Color:\(String(describing: valueString))")
+            let strcval = hexaToBytes(hex!)
+            print("strcval:\(String(describing: strcval))")
+            data = NSData(bytes: &hexb, length: (hexb?.count)!) as Data
+            print("HexStr :\(String(describing: data))")
+            manager = CBCentralManager(delegate: self, queue: nil)
+        }
+        else {
+            let alertController = UIAlertController(title: "Alert", message:
+                "Switch is OFF.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            
+            self.present(alertController, animated: true, completion: nil)
+            manager = CBCentralManager(delegate: self, queue: nil)
+        }
+    }
+    else
+    {
+        let alertController = UIAlertController(title: "Alert", message:
+            "Please check Bluetooth device and Password.", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    //        let triggerDaily = Calendar.current.dateComponents([.day,.month,.year,.hour,.minute,], from: datePicker.date)
+    //
+    //
+    //        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDaily, repeats: false)
+    //
+    //        let alarmId = UUID().uuidString
+    //
+    //        let content = UNMutableNotificationContent()
+    //        content.title = "Notification"
+    //        content.body = " Your Request to turn light ON is completed"
+    //        //content.sound = UNNotificationSound.init(named: "your sound filename.mp3")
+    //        content.categoryIdentifier = alarmId
+    //
+    //        let request = UNNotificationRequest(identifier: "alarmIdentifier", content: content, trigger: trigger)
+    //
+    //        //print("alarm identi   : \(alarmIdentifier)")
+    //
+    //        UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+    //        UNUserNotificationCenter.current().add(request) {(error) in
+    //
+    //            if let error = error {
+    //                print("Uh oh! i had an error: \(error)")
+    //            }
+    //        }
+    //        let timer = Timer(fireAt: datePicker.date, interval: 0, target: self, selector: #selector(self.sendcolor), userInfo: nil, repeats: false)
+    //        RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
+    
+    LightOperationSave()
     }
 }
 

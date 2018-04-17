@@ -15,8 +15,8 @@ import CoreBluetooth
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-     var password = "Sandy"
-    var dstatus = "Connected"
+     var password = "Sand"
+    var dstatus = "DConnected"
  
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

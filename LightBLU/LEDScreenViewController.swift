@@ -123,7 +123,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     override func viewDidLoad() {
         
         
-        self.navigationItem.title = "SCHEDULER SCREEN";
+        self.navigationItem.title = "ALARM SCREEN";
         super.viewDidLoad()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler:{ didAllow , error in
             

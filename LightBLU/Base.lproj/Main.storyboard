@@ -314,7 +314,7 @@
             </objects>
             <point key="canvasLocation" x="311" y="431"/>
         </scene>
-        <!--Alarm Screen-->
+        <!--Schedule Screen View Controller-->
         <scene sceneID="0Sp-40-XNJ">
             <objects>
                 <viewController storyboardIdentifier="ScheduleScreenViewController" id="vaq-Dn-GTV" customClass="ScheduleScreenViewController" customModule="LightBLU" customModuleProvider="target" sceneMemberID="viewController">
@@ -323,13 +323,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mYa-gK-5lh">
-                                <rect key="frame" x="16" y="128" width="42" height="30"/>
+                                <rect key="frame" x="0.0" y="128" width="42" height="30"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Light Switch :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6e-dS-FMY">
-                                <rect key="frame" x="16" y="191" width="104" height="21"/>
+                                <rect key="frame" x="0.0" y="191" width="104" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -355,14 +355,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q5Q-yy-bjQ">
-                                <rect key="frame" x="16" y="288" width="46" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Intensity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f88-j9-sVH">
+                                <rect key="frame" x="0.0" y="418" width="70" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Intensity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f88-j9-sVH">
-                                <rect key="frame" x="16" y="418" width="70" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Color:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q5Q-yy-bjQ">
+                                <rect key="frame" x="0.0" y="295" width="46" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -371,16 +371,12 @@
                         <color key="backgroundColor" red="0.090694956481456757" green="0.32998991012573242" blue="0.37870821356773376" alpha="0.67032320209999996" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="UZT-vo-0GC"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Alarm Screen" id="y8r-V2-tSM">
-                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="dcW-fJ-rvD">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4HI-OD-VM8">
-                                <rect key="frame" x="276" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="savebtn:" destination="vaq-Dn-GTV" eventType="touchUpInside" id="aB8-eW-Gk8"/>
-                                </connections>
-                            </button>
+                    <navigationItem key="navigationItem" id="y8r-V2-tSM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="dcW-fJ-rvD">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="savebtn:" destination="vaq-Dn-GTV" id="gQM-BJ-i6E"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -574,11 +570,11 @@
             </objects>
             <point key="canvasLocation" x="-194" y="-1829"/>
         </scene>
-        <!--LED-->
+        <!--ALARM-->
         <scene sceneID="Hel-OG-l3X">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cuj-Js-geA" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="LED" image="LED.png" id="cyM-ec-qu1"/>
+                    <tabBarItem key="tabBarItem" title="ALARM" image="Alarm.png" id="cyM-ec-qu1"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TxF-cw-haS">
                         <autoresizingMask key="autoresizingMask"/>
@@ -592,11 +588,11 @@
             </objects>
             <point key="canvasLocation" x="698" y="-1135"/>
         </scene>
-        <!--Alarm-->
+        <!--LED-->
         <scene sceneID="ddn-ZV-jQv">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WJY-VL-UD7" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Alarm" image="Alarm.png" id="Bqj-mU-bGM"/>
+                    <tabBarItem key="tabBarItem" title="LED" image="LED.png" id="Bqj-mU-bGM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ACd-lT-mE7">
                         <autoresizingMask key="autoresizingMask"/>

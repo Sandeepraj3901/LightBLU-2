@@ -53,5 +53,6 @@ class SelectedColorView: UIView {
         let hex = col?.toHexString
         let hexb = hex?.hexa2Bytes
         print("Color = :\(String(describing: col))")
+        
     }
 }
