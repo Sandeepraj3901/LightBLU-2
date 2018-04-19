@@ -714,7 +714,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
                                 break
                                 }
                                 
-                            case "Blue"?:  if(self.sliderval >= 95) {
+                            case "Green"?:  if(self.sliderval >= 95) {
                                 // var st = String(format:"%2X", 100)
                                 var value: [UInt8] = [0x00,0xFF, 0x00]
                                 let data = NSData(bytes: &value, length: value.count) as Data
@@ -787,7 +787,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
                                 peripheral.readValue(for: thisCharacteristic)
                                 break
                                 }
-                            case "Green"?:  if(self.sliderval >= 95) {
+                            case "Blue"?:  if(self.sliderval >= 95) {
                                 // var st = String(format:"%2X", 100)
                                 var value: [UInt8] = [ 0x00, 0x00,0xFF]
                                 let data = NSData(bytes: &value, length: value.count) as Data
@@ -926,14 +926,14 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
                                 break
                             }
                             else if(self.sliderval <= 10 ) {
-                                var value: [UInt8] = [0x05, 0x05, 0x05]
+                                var value: [UInt8] = [0xFF, 0x26, 0x29]
                                 let data = NSData(bytes: &value, length: value.count) as Data
                                 //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
                                 peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
                                 peripheral.readValue(for: thisCharacteristic)
                                 break
                                 }
-                                
+                            
                             case .none: break
                                 
                             case .some(_): break
@@ -990,6 +990,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         print( characteristic)
         print("Succeeded!")
         manager.cancelPeripheralConnection(peripheral)
+        deleteNews(deltime: self.alarmtxtfield.text!)
     }
     func readval(){
         
@@ -997,22 +998,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         // Initialize the Cognito Sync client
         
         let dynamoDbObjectMapper = AWSDynamoDBObjectMapper.default()
-        
-        // Create data object using data models you downloaded from Mobile Hub
-       // let newsItem: Device = Device();
-        //newsItem._userId = AWSIdentityManager.default().identityId
-        
-//        dynamoDbObjectMapper.load(Lightblutable.self, hashKey: "LED12345" , rangeKey: "_dname",
-//                                  completionHandler: {
-//                                    (objectModel: AWSDynamoDBObjectModel?, error: Error?) -> Void in
-//                                    //print("Checking :\(String(describing: newsItem._userId! ))")
-//                                    if let error = error {
-//                                        print("Amazon DynamoDB Read Error: \(error)")
-//                                        return
-//                                    }
-        //                                   print(" chchch :\(newsItem._dname)")
-//
-//        })
+
         let queryex = AWSDynamoDBQueryExpression()
         queryex.keyConditionExpression = "#deviceId = :deviceId"
         queryex.expressionAttributeNames = [
@@ -1237,7 +1223,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
                 //content.sound = UNNotificationSound.init(named: "your sound filename.mp3")
                 content.categoryIdentifier = alarmId
                 
-                let request = UNNotificationRequest(identifier: "alarmIdentifier", content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: alarmtxtfield.text!, content: content, trigger: trigger)
                 
                 //print("alarm identi   : \(alarmIdentifier)")
                 
@@ -1274,7 +1260,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
             //content.sound = UNNotificationSound.init(named: "your sound filename.mp3")
             content.categoryIdentifier = alarmId
             
-            let request = UNNotificationRequest(identifier: "alarmIdentifier", content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: alarmtxtfield.text! , content: content, trigger: trigger)
             
             //print("alarm identi   : \(alarmIdentifier)")
             
@@ -1294,7 +1280,8 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
             manager = CBCentralManager(delegate: self, queue: nil)
         }
         
-        LightOperationSave()
+        //LightOperationSave()
+        schedulersave()
     }
         else {
             let alertController = UIAlertController(title: "Alert", message:
@@ -1305,10 +1292,88 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         }
     }
     
-    @objc func sendcolor (_ sender: Any)
+    @objc func sendcolor ()
     {
+        self.coloval.text = ""
+        self.alarmtxtfield.text = ""
         print(" Time triggered")
-        manager = CBCentralManager(delegate: self, queue: nil)
+        let dynamoDbObjectMapper2 = AWSDynamoDBObjectMapper.default()
+        
+        let queryexp = AWSDynamoDBQueryExpression()
+        queryexp.keyConditionExpression = "#userId = :userId"
+        queryexp.expressionAttributeNames = [
+            "#userId" : "userId",
+            
+        ]
+        queryexp.expressionAttributeValues = [
+            ":userId": "LED BLU",
+        ]
+        dynamoDbObjectMapper2.query(Scheduler.self, expression: queryexp, completionHandler: {(response : AWSDynamoDBPaginatedOutput?, error: Error?) -> Void in
+            if let error = error{
+                print("The Read failed. Error: \(error)")
+                return
+            }
+            if( response != nil){
+                if( response?.items.count == 0){
+                    //self.createid()
+                    print("The Read failed No items")
+                    
+                }
+                else {
+                    print(response?.items as Any)
+                    for items in (response?.items)!
+                    {
+                        let date1 = Date()
+                        let formatter1 = DateFormatter()
+                        formatter1.dateFormat = "dd/MM/yyyy HH:mm"
+                        
+                        if ((items.value(forKey: "_scheduletime" )as! String) == formatter1.string(from: date1)){
+                            print(" A scheduler was read:\((items.value(forKey: "_scheduletime" )as! String))")
+                            
+                                DispatchQueue.main.async() {
+                                self.idval?.text = (items.value(forKey: "_userId") as? String)!
+                                self.coloval.text = (items.value(forKey: "_colorValue") as? String)!
+                                    let ans = (items.value(forKey: "_switchval") as? String)!
+                                    print(self.coloval.text as Any)
+                                self.sliderval = 50
+                                self.alarmtxtfield.text = (items.value(forKey: "_scheduletime") as? String)!
+                                    
+                                if(( ans == "Light ON"))
+                                {
+                                    print(ans)
+                                    self.switchval.setOn(true, animated: true)
+                                    
+                                }
+                                else {
+                                    self.switchval.setOn(false, animated: true)
+                                    
+                                }
+                                    self.manager = CBCentralManager(delegate: self, queue: nil)
+                            }
+                        }
+                    }
+                }
+            }
+            
+        })
+        
+        
+    }
+    
+    func deleteNews(deltime: String) {
+        let dynamoDbObjectMapper = AWSDynamoDBObjectMapper.default()
+        
+        let itemToDelete = Scheduler()
+        itemToDelete?._userId = "LED BLU"
+        itemToDelete?._scheduletime = deltime
+        
+        dynamoDbObjectMapper.remove(itemToDelete!, completionHandler: {(error: Error?) -> Void in
+            if let error = error {
+                print(" Amazon DynamoDB Save Error: \(error)")
+                return
+            }
+            print("An item was deleted.")
+        })
     }
     func showDatePicker(){
         //Formate Date
@@ -1369,7 +1434,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         newsItem1._lastUpdated = formatter.string(from: date)
         newsItem1._opId = Int(arc4random_uniform(100)) as NSNumber
         if(self.switchval.isOn && self.alarmtxtfield == nil){
-        newsItem1._deviceStatus = " Light ON"
+        newsItem1._deviceStatus = "Light ON"
         }
         else if( self.alarmtxtfield != nil)
         {
@@ -1377,7 +1442,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         }
         else
         {
-             newsItem1._deviceStatus = " Light OFF"
+             newsItem1._deviceStatus = "Light OFF"
         }
         //AWSIdentityManager.default().identityId
         
@@ -1394,5 +1459,82 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         })
         
     }
+    
+    func schedulersave()
+    {
+        let dynamoDbObjectMapper1 = AWSDynamoDBObjectMapper.default()
+        
+        // Create data object using data models
+        let newsItem2: Scheduler = Scheduler()
+        if(self.idval.text != nil)
+        {newsItem2._userId = self.idval.text}
+        else
+        {newsItem2._userId =  "SAMPLE"}
+        
+        if(self.coloval.text != "")
+        {newsItem2._colorValue = self.coloval.text}
+        else
+        {newsItem2._colorValue = "NIL"}
+        if(self.sliderval >= 0)
+        {newsItem2._intVal = String(self.sliderval)}
+        else
+        {newsItem2._intVal = "NIL"}
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy HH:mm"
+        newsItem2._savedTime = formatter.string(from: date)
+        
+        if(self.switchval.isOn ){
+            newsItem2._switchval = "Light ON"
+        }
+        else
+        {
+            newsItem2._switchval = "Light OFF"
+        }
+        if(self.alarmtxtfield != nil)
+        {
+            newsItem2._scheduletime = alarmtxtfield.text
+        }
+        
+        //AWSIdentityManager.default().identityId
+        
+        //Save a new item
+        print("value for scheduler:\(String(describing: newsItem2))")
+        dynamoDbObjectMapper1.save(newsItem2, completionHandler: {
+            (error: Error?) -> Void in
+            // NSLog((error as! NSString) as String)
+            if let error = error {
+                print("Amazon DynamoDB Save Error Operation: \(error)")
+                return
+            }
+            print("Scheduler was saved!!!.")
+        })
+        
+    }
+//    func setNotification (time : Int,identifier : String)
+//    {
+//        let content = UNMutableNotificationContent()
+//        content.title = "Don't forget"
+//        content.body = "Lights"
+//        content.sound = UNNotificationSound.default()
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(time),
+//                                                        repeats: false)
+//        let center = UNUserNotificationCenter.current()
+//        // Swift
+//        let request = UNNotificationRequest(identifier: identifier,
+//                                            content: content, trigger: trigger)
+//        center.add(request, withCompletionHandler: { (error) in
+//            if error != nil {
+//                // Something went wrong
+//            }
+//        })
+//    }
+//    func applicationDidEnterBackground(_ application: UIApplication) {
+//
+//        setNotification(time: 25,identifier: "notific2")
+//        setNotification(time: 50,identifier: "notific3")
+//        setNotification(time: 90,identifier: "notific4")
+//    }
+
 }
 

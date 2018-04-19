@@ -398,7 +398,7 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                 //let d = "FF0000"
                 
                 
-                var value: [UInt8] = [0xFF,0x47,0x9E]
+                var value: [UInt8] = [0x8D,0xAA,0xDD]
                 let data = NSData(bytes: &value, length: value.count) as Data
                 let data1: Data = "A51628".data(using: String.Encoding.utf8)!
                 print(data1)

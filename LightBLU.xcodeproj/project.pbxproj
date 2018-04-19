@@ -49,6 +49,7 @@
 		42CB099B203D0A1C0001EAFF /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CB099A203D0A1C0001EAFF /* MainCollectionViewCell.swift */; };
 		42CB099D203D0F750001EAFF /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CB099C203D0F750001EAFF /* LaunchViewController.swift */; };
 		42D9AA54204DF0D50036BC41 /* LED.png in Resources */ = {isa = PBXBuildFile; fileRef = 42D9AA53204DF0D50036BC41 /* LED.png */; };
+		42DF20DD20890F760007FAE6 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DF20DC20890F760007FAE6 /* Scheduler.swift */; };
 		42E7CFE42040EE91002DE36C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E7CFE32040EE91002DE36C /* UIKit.framework */; };
 		42FDF37B2072CC0E00B68C5F /* lb1.png in Resources */ = {isa = PBXBuildFile; fileRef = 42FDF37A2072CC0E00B68C5F /* lb1.png */; };
 		42FDF37D2072CC3F00B68C5F /* llb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 42FDF37C2072CC3F00B68C5F /* llb.jpg */; };
@@ -271,6 +272,7 @@
 		42CB099C203D0F750001EAFF /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		42D9A9E4204DC6540036BC41 /* LightBLU.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = LightBLU.xcodeproj; sourceTree = "<group>"; };
 		42D9AA53204DF0D50036BC41 /* LED.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LED.png; sourceTree = "<group>"; };
+		42DF20DC20890F760007FAE6 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		42E7CFDF2040EE7B002DE36C /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		42E7CFE12040EE84002DE36C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		42E7CFE32040EE91002DE36C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -414,6 +416,7 @@
 		426C097F204A067400249978 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				42DF20DC20890F760007FAE6 /* Scheduler.swift */,
 				4244B301207C755600243583 /* LightOperations1.swift */,
 				4244B2FF207C674800243583 /* LightOperations.swift */,
 				4244B2FD207C471800243583 /* Device.swift */,
@@ -879,6 +882,7 @@
 				420F173E204A2A7E00077C89 /* BluetoothTableViewController.swift in Sources */,
 				42CB0961203CC2DF0001EAFF /* AppDelegate.swift in Sources */,
 				4266CBA7203E5D7100BC2438 /* LEDScreenViewController.swift in Sources */,
+				42DF20DD20890F760007FAE6 /* Scheduler.swift in Sources */,
 				426C0981204A069B00249978 /* SampleDB.swift in Sources */,
 				4266CBAD203E5DAB00BC2438 /* ScheduleScreenViewController.swift in Sources */,
 				4266CBAF203E60F800BC2438 /* AppleScreenViewController.swift in Sources */,
@@ -1068,6 +1072,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = LightBLU/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = UHCL.LightBLU;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1091,6 +1096,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = LightBLU/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = UHCL.LightBLU;
 				PRODUCT_NAME = "$(TARGET_NAME)";

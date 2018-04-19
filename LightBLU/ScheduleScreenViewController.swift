@@ -41,8 +41,8 @@ extension String {
         let hexa = Array(self)
         return stride(from: 0, to: count, by: 2).flatMap { UInt8(String(hexa[$0..<$0.advanced(by: 2)]), radix: 10) }
     }
-    func splitByLength(length: Int) -> String {
-        var result = String()
+    func splitByLength(length: Int) -> [String] {
+        var result = [String]()
        
         var collectedCharacters = [Character]()
         collectedCharacters.reserveCapacity(length)
@@ -56,7 +56,7 @@ extension String {
                 // Reached the desired length
                 count = 0
                 
-                result.append(String(collectedCharacters))
+                result.append("0x" +  String(collectedCharacters))
                 collectedCharacters.removeAll(keepingCapacity: true)
             }
         }
@@ -304,9 +304,10 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
              let x = color.splitByLength(length: 2)
             print("newData:\(String(describing: x))")
         print("Hex:\(String(describing: hex))")
-        var hexb = hex?.hexa2Byte
+            var hexb = hex?.hexa2Byte
             
-            data = x.data(using: String.Encoding.utf8, allowLossyConversion: true)!
+           data = NSData(bytes: x, length: x.count) as Data
+                //.data(using: String.Encoding.utf8, allowLossyConversion: true)!
             
             
             
