@@ -391,25 +391,32 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                 }
                 
                 //peripheral.readValue(for: thisCharacteristic)
-                peripheral.setNotifyValue(true, for: thisCharacteristic)
+                //peripheral.setNotifyValue(true, for: thisCharacteristic)
                 //thisCharacteristic.value = "tytyty"
                 print(thisCharacteristic as Any)
                 /// writting data to peripheral device
                 //let d = "FF0000"
                 
                 
-                var value: [UInt8] = [0x8D,0xAA,0xDD]
+                var value: [UInt8] = [0xFF,0xAA,0x00]
                 let data = NSData(bytes: &value, length: value.count) as Data
                 let data1: Data = "A51628".data(using: String.Encoding.utf8)!
                 print(data1)
                 //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
                 peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
                peripheral.readValue(for: thisCharacteristic)
+               rd(thisCharacteristic)
             }
         }
     }
     
-    
+    func rd(_ characteristic: CBCharacteristic)
+    {
+       let data = characteristic.value;
+//        let nsAnswer = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+       print("read:\(data)")
+        print("characteristic uuid: \(characteristic.uuid), value: \(String(describing: characteristic.value))")
+    }
     
     func peripheral(_ peripheral: CBPeripheral,didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         
@@ -419,7 +426,9 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
             print("Failed… error: \(error)")
             return
         }
-        
+        let data = characteristic.value;
+        let nsAnswer = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        print("read:\(nsAnswer as Any)")
         print("characteristic uuid: \(characteristic.uuid), value: \(String(describing: characteristic.value))")
         
         

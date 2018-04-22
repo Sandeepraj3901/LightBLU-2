@@ -527,12 +527,19 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
                     let data1 = NSData(bytes: &value1, length: value1.count) as Data
                     peripheral.writeValue(data1, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
                 }
-                    // peripheral.readValue(for: thisCharacteristic)
+                    peripheral.readValue(for: thisCharacteristic)
+                rd(thisCharacteristic)
             }
         }
     }
     
-    
+    func rd(_ characteristic: CBCharacteristic)
+    {
+        let data = characteristic.value;
+        //        let nsAnswer = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        print("read:\(String(describing: data))")
+        print("characteristic uuid: \(characteristic.uuid), value: \(String(describing: characteristic.value))")
+    }
     
     func peripheral(_ peripheral: CBPeripheral,didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         
