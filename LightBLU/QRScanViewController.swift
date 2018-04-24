@@ -9,13 +9,19 @@
 import UIKit
 import AVFoundation
 import CoreBluetooth
+import AWSDynamoDB
+import AWSAuthCore
+import AWSCore
+import AWSCognito
 
 class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, CBCentralManagerDelegate, CBPeripheralDelegate{
-   var password: String = ""
+   let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var password: String = ""
     var qrtext: String = ""
     var name: String = " "
     var NAME: String = "LED BLU"
     var status = ""
+    var AWSpwd = ""
     let B_UUID =
         CBUUID(string: "0000AB09-D102-11E1-9B23-00025B00A5A5")
     //0000AB07-D102-11E1-9B23-00025B00A5A5
@@ -123,11 +129,49 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         super.viewDidLoad()
         self.navigationItem.title = "QR Scan"
         view.backgroundColor = UIColor.black
-      
+        self.ReadAWSPWD()
         
     }
     
+    func ReadAWSPWD()
+    {
+    let dynamoDbObjectMapper = AWSDynamoDBObjectMapper.default()
     
+    let queryex = AWSDynamoDBQueryExpression()
+    queryex.keyConditionExpression = "#DeviceId = :DeviceId"
+    queryex.expressionAttributeNames = [
+    "#DeviceId" : "DeviceId",
+    
+    ]
+    queryex.expressionAttributeValues = [
+    ":DeviceId": "LED BLU",
+    ]
+    dynamoDbObjectMapper.query(QRPasswordTable.self, expression: queryex, completionHandler: {(response : AWSDynamoDBPaginatedOutput?, error: Error?) -> Void in
+    if let error = error{
+    print("The Read failed. Error: \(error)")
+    return
+    }
+    if( response != nil){
+    if( response?.items.count == 0){
+    //self.createid()
+    print("The PWD Read failed No items")
+    
+    }
+    else {
+    for items in (response?.items)!
+    {
+    if (items.value(forKey: "_deviceId" ) != nil){
+    print(" An Item was read")
+    self.AWSpwd = (items.value(forKey: "_password") as? String)!
+    print (self.AWSpwd)
+   
+    }
+    }
+    }
+    }
+    
+    })
+    }
     func launchApp(decodedURL: String) {
         
         if presentedViewController != nil {
@@ -204,10 +248,17 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                             if(self.password == "Sandy")
                             {
                                 //self.manager = CBCentralManager(delegate: self, queue: nil)
-                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                appDelegate.password = self.password
-                               
-                                appDelegate.dstatus = "Connected"
+                                
+                                
+                                let c = self.PasswordAWS(self.password)
+                                if( c == "true" && self.AWSpwd == self.password){
+                                    self.appDelegate.dstatus = "Connected"
+                                    self.appDelegate.password = self.password
+                                }
+                                else {
+                                    self.appDelegate.dstatus = "DisConnected"
+                                    self.appDelegate.password = "NIL"
+                                }
                                 self.manager = CBCentralManager(delegate: self, queue: nil)
                                 }
                             else {
@@ -233,7 +284,38 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         
     }
    
-    
+    func PasswordAWS(_ c : String) -> String{
+        
+        let dynamoDbObjectMapperBLE = AWSDynamoDBObjectMapper.default()
+        
+        // Create data object using data models
+        let Item: QRPasswordTable = QRPasswordTable()
+        
+        Item._deviceId = NAME
+      
+            Item._password = c
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy HH:mm"
+        //formatter.timeStyle = DateFormatter.Style.short
+        
+        Item._lastUpdated = formatter.string(from: date)
+        //AWSIdentityManager.default().identityId
+        
+        //Save a new item
+        print("value for db:\(String(describing: Item._lastUpdated))")
+        dynamoDbObjectMapperBLE.save(Item, completionHandler: {
+            (error: Error?) -> Void in
+            // NSLog((error as! NSString) as String)
+            if let error = error {
+                print("Amazon DynamoDB Save Error: \(error)")
+                return
+            }
+            print("A password record was saved.")
+            
+        })
+       return "true"
+    }
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == CBManagerState.poweredOn {
             let alert3 = UIAlertController(title: "Deviced Paired - Please proceed", message: nil, preferredStyle: UIAlertControllerStyle.alert)
@@ -399,11 +481,12 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                 
                 
                 var value: [UInt8] = [0xFF,0xAA,0x00]
-                let data = NSData(bytes: &value, length: value.count) as Data
-                let data1: Data = "A51628".data(using: String.Encoding.utf8)!
+                print(value[1])
+                //let data = NSData(bytes: &value, length: value.count) as Data
+                let data1: Data = "Add".data(using: String.Encoding.utf8)!
                 print(data1)
                 //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
-                peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                peripheral.writeValue(data1, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
                peripheral.readValue(for: thisCharacteristic)
                rd(thisCharacteristic)
             }
@@ -441,7 +524,7 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
             return
         }
         print( characteristic)
-        print("Succeeded!")
+        print("Succeeded- QR$!")
         
         manager.cancelPeripheralConnection(peripheral)
     }

@@ -147,7 +147,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         super.viewDidLoad()
          //manager = CBCentralManager(delegate: self, queue: nil)
      self.view.backgroundColor = UIColor(patternImage: UIImage(named: "lb5")!)
-        Idtextfield.text = "LED BLU "
+        
 //        let backgroundImageView = UIImageView(image: UIImage(named: "lb5"))
 //        backgroundImageView.frame = view.frame
 //        backgroundImageView.contentMode = .scaleAspectFill
@@ -164,8 +164,14 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         colorPicker.setViewColor(selectedColor)
 
         
+        
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        if(appDelegate.dstatus == "Connected") {
+            Idtextfield.text = "LED BLU "
+            self.viewDidLoad()
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -286,10 +292,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
     
     
     @IBAction func savebtn(_ sender: Any) {
-        let alertController = UIAlertController(title: "Alert", message:
-            "Operation Saved ", preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-        self.present(alertController, animated: true, completion: nil)
+  
         
         if(appDelegate.password == "Sandy" && appDelegate.dstatus == "Connected") {
         if (Switchval.isOn){
@@ -306,7 +309,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         print("Hex:\(String(describing: hex))")
             var hexb = hex?.hexa2Byte
             
-           data = NSData(bytes: x, length: x.count) as Data
+           //data = NSData(bytes: x, length: x.count) as Data
                 //.data(using: String.Encoding.utf8, allowLossyConversion: true)!
             
             
@@ -315,9 +318,11 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         print("Hexb:\(String(describing: hexb))")
         //data = (hex?.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue)))!
        // print("HexStr Color:\(String(describing: valueString))")
-            let strcval = hexaToBytes(hex!)
+            let strcval = hexaToBytes(hex!) as [UInt8]
              print("strcval:\(String(describing: strcval))")
-        //data = NSData(bytes: &hexb, length: (hexb?.count)!) as Data
+            
+           
+            data = NSData(bytes: strcval, length: (strcval.count)) as Data
          print("HexStr :\(String(describing: data))")
          manager = CBCentralManager(delegate: self, queue: nil)
         }
@@ -520,7 +525,7 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
                 //let valueString = (data as NSString).data(using: String.Encoding.utf8.rawValue)
                 if(Switchval.isOn)
                 {
-                peripheral.writeValue(newData, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                peripheral.writeValue(data, for: thisCharacteristic, type: CBCharacteristicWriteType.withResponse)
                 }
                 else {
                     var value1: [UInt8] = [0x00, 0x00, 0x00]
@@ -565,6 +570,10 @@ class ScheduleScreenViewController: UIViewController, UIPickerViewDataSource, UI
         print("Succeeded!")
         
         manager.cancelPeripheralConnection(peripheral)
+        let alertController = UIAlertController(title: "Alert", message:
+            "Operation Saved ", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func hexaToBytes(_ hexa: String) -> [UInt8] {

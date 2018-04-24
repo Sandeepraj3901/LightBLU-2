@@ -46,7 +46,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
                 if(peripheral1.name == "LED BLU" && appDelegate.password == "Sandy")
                 {
                     cells.detailTextLabel?.text = "Connected"
-                   
+                    appDelegate.dname1 = peripheral1.name!
                     
                 }
                 else

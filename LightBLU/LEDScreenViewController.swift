@@ -120,6 +120,9 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     let cval = ["Red", "Blue","Green", "White"]
     
     var pickerView = UIPickerView()
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewDidLoad()
+    }
     override func viewDidLoad() {
         
         
@@ -991,6 +994,10 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
         print("Succeeded!")
         manager.cancelPeripheralConnection(peripheral)
         deleteNews(deltime: self.alarmtxtfield.text!)
+        let alertController = UIAlertController(title: "Alert", message:
+            "Operation Saved ", preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     func readval(){
         
@@ -1022,12 +1029,13 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
                 else {
                     for items in (response?.items)!
                     {
-                        if (items.value(forKey: "_deviceName" ) != nil){
+                        if (items.value(forKey: "_deviceName" ) != nil && self.appDelegate.dstatus == "Connected"){
                             print(" An Item was read")
                             self.devicename = (items.value(forKey: "_deviceName") as? String)!
                             print (self.devicename)
                             DispatchQueue.main.async() {
                                self.idval?.text = self.devicename
+                                
                             }
                         }
                     }
@@ -1180,10 +1188,7 @@ CBCentralManagerDelegate, CBPeripheralDelegate, UITextFieldDelegate {
     
     var i = 0
     @IBAction func saveBtn(_ sender: Any) {
-        let alertController = UIAlertController(title: "Alert", message:
-            "Operation Saved ", preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-        self.present(alertController, animated: true, completion: nil)
+        
         
         let id = idval.text
        

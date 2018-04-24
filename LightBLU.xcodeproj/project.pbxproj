@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		420F173E204A2A7E00077C89 /* BluetoothTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420F173D204A2A7E00077C89 /* BluetoothTableViewController.swift */; };
+		421577B5208EBCA600E81BB5 /* QRPasswordTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421577B4208EBCA600E81BB5 /* QRPasswordTable.swift */; };
+		421577B7208ED32200E81BB5 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 421577B6208ED32200E81BB5 /* settings.png */; };
+		421577BB208ED5F200E81BB5 /* icons8-settings-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 421577BA208ED5F200E81BB5 /* icons8-settings-50.png */; };
 		42416414204F53E600CACFC6 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 42416413204F53E600CACFC6 /* awsconfiguration.json */; };
-		42416418204F576500CACFC6 /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42416417204F576500CACFC6 /* Sample.swift */; };
 		4241641A204F894400CACFC6 /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42416419204F894400CACFC6 /* DeviceViewController.swift */; };
 		4244B2FE207C471800243583 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4244B2FD207C471800243583 /* Device.swift */; };
 		4244B300207C674900243583 /* LightOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4244B2FF207C674800243583 /* LightOperations.swift */; };
@@ -26,7 +28,6 @@
 		4266CBAB203E5D9B00BC2438 /* SettingsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266CBAA203E5D9B00BC2438 /* SettingsScreenViewController.swift */; };
 		4266CBAD203E5DAB00BC2438 /* ScheduleScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266CBAC203E5DAB00BC2438 /* ScheduleScreenViewController.swift */; };
 		4266CBAF203E60F800BC2438 /* AppleScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266CBAE203E60F800BC2438 /* AppleScreenViewController.swift */; };
-		426C0981204A069B00249978 /* SampleDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426C0980204A069B00249978 /* SampleDB.swift */; };
 		426D031A2064A9DD00AA1C9A /* 123.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 426D03192064A9DD00AA1C9A /* 123.jpg */; };
 		4271B44C20781FDB004C48A0 /* SwiftHSVColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4271B44720781FDA004C48A0 /* SwiftHSVColorPicker.swift */; };
 		4271B44D20781FDB004C48A0 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4271B44820781FDA004C48A0 /* ColorUtils.swift */; };
@@ -224,8 +225,10 @@
 /* Begin PBXFileReference section */
 		325E1987BA2D185E51E42432 /* Pods_LightBLU.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LightBLU.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		420F173D204A2A7E00077C89 /* BluetoothTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothTableViewController.swift; sourceTree = "<group>"; };
+		421577B4208EBCA600E81BB5 /* QRPasswordTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRPasswordTable.swift; sourceTree = "<group>"; };
+		421577B6208ED32200E81BB5 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		421577BA208ED5F200E81BB5 /* icons8-settings-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-settings-50.png"; sourceTree = "<group>"; };
 		42416413204F53E600CACFC6 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = awsconfiguration.json; path = ../../../Downloads/awsconfiguration.json; sourceTree = "<group>"; };
-		42416417204F576500CACFC6 /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
 		42416419204F894400CACFC6 /* DeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
 		4244B2FD207C471800243583 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		4244B2FF207C674800243583 /* LightOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightOperations.swift; sourceTree = "<group>"; };
@@ -242,7 +245,6 @@
 		4266CBAA203E5D9B00BC2438 /* SettingsScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenViewController.swift; sourceTree = "<group>"; };
 		4266CBAC203E5DAB00BC2438 /* ScheduleScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleScreenViewController.swift; sourceTree = "<group>"; };
 		4266CBAE203E60F800BC2438 /* AppleScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScreenViewController.swift; sourceTree = "<group>"; };
-		426C0980204A069B00249978 /* SampleDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDB.swift; sourceTree = "<group>"; };
 		426D03192064A9DD00AA1C9A /* 123.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 123.jpg; sourceTree = "<group>"; };
 		4271B44720781FDA004C48A0 /* SwiftHSVColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHSVColorPicker.swift; sourceTree = "<group>"; };
 		4271B44820781FDA004C48A0 /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
@@ -416,13 +418,12 @@
 		426C097F204A067400249978 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				421577B4208EBCA600E81BB5 /* QRPasswordTable.swift */,
 				42DF20DC20890F760007FAE6 /* Scheduler.swift */,
 				4244B301207C755600243583 /* LightOperations1.swift */,
 				4244B2FF207C674800243583 /* LightOperations.swift */,
 				4244B2FD207C471800243583 /* Device.swift */,
 				42FDF44D2072EDAE00B68C5F /* Lightblutable.swift */,
-				426C0980204A069B00249978 /* SampleDB.swift */,
-				42416417204F576500CACFC6 /* Sample.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -512,6 +513,8 @@
 		42D9AA52204DF0B70036BC41 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				421577BA208ED5F200E81BB5 /* icons8-settings-50.png */,
+				421577B6208ED32200E81BB5 /* settings.png */,
 				42FDF37C2072CC3F00B68C5F /* llb.jpg */,
 				426D03192064A9DD00AA1C9A /* 123.jpg */,
 				42CABA6320621FE500C78419 /* Christmas-Lights-Backgrounds.jpg */,
@@ -721,10 +724,12 @@
 				42FDF37D2072CC3F00B68C5F /* llb.jpg in Resources */,
 				42D9AA54204DF0D50036BC41 /* LED.png in Resources */,
 				42CB0968203CC2DF0001EAFF /* Assets.xcassets in Resources */,
+				421577BB208ED5F200E81BB5 /* icons8-settings-50.png in Resources */,
 				426D031A2064A9DD00AA1C9A /* 123.jpg in Resources */,
 				42416414204F53E600CACFC6 /* awsconfiguration.json in Resources */,
 				42967E832065B3E60045AE3E /* lb4.png in Resources */,
 				42967E852065B4860045AE3E /* lb5.png in Resources */,
+				421577B7208ED32200E81BB5 /* settings.png in Resources */,
 				425B62D4204DFB0B00363BFF /* More.png in Resources */,
 				425B62E0204E00AE00363BFF /* bg.png in Resources */,
 				42CABA6420621FE500C78419 /* Christmas-Lights-Backgrounds.jpg in Resources */,
@@ -883,14 +888,13 @@
 				42CB0961203CC2DF0001EAFF /* AppDelegate.swift in Sources */,
 				4266CBA7203E5D7100BC2438 /* LEDScreenViewController.swift in Sources */,
 				42DF20DD20890F760007FAE6 /* Scheduler.swift in Sources */,
-				426C0981204A069B00249978 /* SampleDB.swift in Sources */,
 				4266CBAD203E5DAB00BC2438 /* ScheduleScreenViewController.swift in Sources */,
 				4266CBAF203E60F800BC2438 /* AppleScreenViewController.swift in Sources */,
 				4241641A204F894400CACFC6 /* DeviceViewController.swift in Sources */,
 				4244B2FE207C471800243583 /* Device.swift in Sources */,
 				42FDF44E2072EDAE00B68C5F /* Lightblutable.swift in Sources */,
+				421577B5208EBCA600E81BB5 /* QRPasswordTable.swift in Sources */,
 				4244B302207C755600243583 /* LightOperations1.swift in Sources */,
-				42416418204F576500CACFC6 /* Sample.swift in Sources */,
 				4266CBA9203E5D8700BC2438 /* QRScanViewController.swift in Sources */,
 				4266CBA5203E4C0F00BC2438 /* BluetoothScreenViewController.swift in Sources */,
 				42CB099B203D0A1C0001EAFF /* MainCollectionViewCell.swift in Sources */,
