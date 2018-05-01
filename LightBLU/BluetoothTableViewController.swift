@@ -43,7 +43,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         let peripheral1 = perip[indexPath.row]
         
                cells.textLabel?.text = peripheral1.name
-                if(peripheral1.name == "LED BLU" && appDelegate.password == "Sandy")
+                if(peripheral1.name == self.NAME && appDelegate.password == "Sandy")
                 {
                     cells.detailTextLabel?.text = "Connected"
                     appDelegate.dname1 = peripheral1.name!
@@ -66,7 +66,7 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.addSubview(self.refreshControl1)
         self.password = appDelegate.password
      
         manager = CBCentralManager(delegate: self, queue: nil)
@@ -153,13 +153,13 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
        if(peripheral.name != nil )
        {
         name = peripheral.name!
-        if (peripheral.name == "LED BLU")
+        if (peripheral.name == self.NAME)
         {
            //self.sublabel.text = "Connected"
             let device = (advertisementData as NSDictionary).object(forKey: CBAdvertisementDataLocalNameKey)
                 as? NSString
             print("hello:\(peripheral) and \(String(describing: device))")
-            if device?.contains(NAME) == true{
+            if device?.isEqual(to: NAME) == true{
             //self.manager.stopScan()
             print("Found:\(name), and \(NAME)")
             //manager.connect(peripherals, options: nil)
@@ -373,4 +373,21 @@ class BluetoothTableViewController: UITableViewController, CBCentralManagerDeleg
         })
       
     }
+    lazy var refreshControl1: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:
+            #selector(BluetoothTableViewController.handleRefresh(_:)),
+                                 for: UIControlEvents.valueChanged)
+        refreshControl.tintColor = UIColor.red
+        
+        return refreshControl
+    }()
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        
+       
+        
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
 }

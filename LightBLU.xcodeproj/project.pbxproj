@@ -21,6 +21,7 @@
 		425B62D5204DFB0B00363BFF /* Alarm.png in Resources */ = {isa = PBXBuildFile; fileRef = 425B62D1204DFB0B00363BFF /* Alarm.png */; };
 		425B62D6204DFB0B00363BFF /* Barcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 425B62D2204DFB0B00363BFF /* Barcode.png */; };
 		425B62E0204E00AE00363BFF /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 425B62DF204E00AE00363BFF /* bg.png */; };
+		425D88EE2099100D001E92EF /* Branch-Engineering-128-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 425D88ED2099100D001E92EF /* Branch-Engineering-128-3.png */; };
 		4266CBA3203E31A000BC2438 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266CBA2203E31A000BC2438 /* CollectionViewController.swift */; };
 		4266CBA5203E4C0F00BC2438 /* BluetoothScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266CBA4203E4C0F00BC2438 /* BluetoothScreenViewController.swift */; };
 		4266CBA7203E5D7100BC2438 /* LEDScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266CBA6203E5D7100BC2438 /* LEDScreenViewController.swift */; };
@@ -238,6 +239,7 @@
 		425B62D1204DFB0B00363BFF /* Alarm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Alarm.png; sourceTree = "<group>"; };
 		425B62D2204DFB0B00363BFF /* Barcode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Barcode.png; sourceTree = "<group>"; };
 		425B62DF204E00AE00363BFF /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		425D88ED2099100D001E92EF /* Branch-Engineering-128-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Branch-Engineering-128-3.png"; sourceTree = "<group>"; };
 		4266CBA2203E31A000BC2438 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		4266CBA4203E4C0F00BC2438 /* BluetoothScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothScreenViewController.swift; sourceTree = "<group>"; };
 		4266CBA6203E5D7100BC2438 /* LEDScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LEDScreenViewController.swift; sourceTree = "<group>"; };
@@ -513,6 +515,7 @@
 		42D9AA52204DF0B70036BC41 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				425D88ED2099100D001E92EF /* Branch-Engineering-128-3.png */,
 				421577BA208ED5F200E81BB5 /* icons8-settings-50.png */,
 				421577B6208ED32200E81BB5 /* settings.png */,
 				42FDF37C2072CC3F00B68C5F /* llb.jpg */,
@@ -732,6 +735,7 @@
 				421577B7208ED32200E81BB5 /* settings.png in Resources */,
 				425B62D4204DFB0B00363BFF /* More.png in Resources */,
 				425B62E0204E00AE00363BFF /* bg.png in Resources */,
+				425D88EE2099100D001E92EF /* Branch-Engineering-128-3.png in Resources */,
 				42CABA6420621FE500C78419 /* Christmas-Lights-Backgrounds.jpg in Resources */,
 				42CB0966203CC2DF0001EAFF /* Main.storyboard in Resources */,
 				42967E812065B3840045AE3E /* lb3.jpg in Resources */,

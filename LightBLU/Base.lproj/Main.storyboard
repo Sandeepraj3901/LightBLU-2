@@ -310,7 +310,7 @@
                         <color key="backgroundColor" red="0.090694956481456757" green="0.32998991012573242" blue="0.37870821356773376" alpha="0.67032320209999996" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="NgO-7f-zXx"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="icons8-settings-50.png" id="KTf-yP-EYY"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="Branch-Engineering-128-3.png" id="KTf-yP-EYY"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="Dname" destination="JPU-LB-bJ4" id="hZD-qL-wF4"/>
@@ -642,7 +642,7 @@
         <image name="Alarm.png" width="40" height="40"/>
         <image name="Barcode.png" width="40" height="40"/>
         <image name="Bluetooth.png" width="40" height="40"/>
+        <image name="Branch-Engineering-128-3.png" width="128" height="128"/>
         <image name="LED.png" width="40" height="40"/>
-        <image name="icons8-settings-50.png" width="50" height="50"/>
     </resources>
 </document>
